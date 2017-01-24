@@ -6,7 +6,7 @@
    
 import ctypes
 
-alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+alphabet = "ABCDEFGHIJKLMOPQRSTUVWXYZ"
 def debug():
     """This function uses a global list "alphabet" and strows each character in a local variable "char" """
     char = " "
