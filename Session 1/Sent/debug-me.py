@@ -6,18 +6,18 @@
    
 import ctypes
 
-alphabet = "ABCDEFGHIJKLMOPQRSTUVWXYZ"
+alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 def debug():
     """This function uses a global list "alphabet" and strows each character in a local variable "char" """
     char = " "
     i = 0    
-    while i <= 26:
-        i=0
+    while i < 26:
+        #i=0
         char = alphabet[i]
         i = i + 1
 
-    if alphabet[i] == 'Z':
-        return i
+    if alphabet[i-1] == 'Z':
+        return i-1
     else: return 0
 
 def main():
