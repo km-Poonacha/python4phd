@@ -1,0 +1,593 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{Lesson 6 - Supervised learning}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \section{Lesson 6 - Supervised Learning* \#\# 1. Machine learning
+(ML)}\label{lesson-6---supervised-learning-1.-machine-learning-ml}
+
+The sentiment analysis program we wrote earlier (in session 1) adopts a
+non-machine learning algorithm. That is, it tries to define what good
+and bad sentiments are and assumes all the necessary words of good and
+bad sentiments exist in the word\_sentiment.csv file.
+
+Machine Learning (ML) is a class of algorithms, which are data-driven,
+i.e. unlike "normal" algorithms, it is the data that "tells" what the
+"good answer" is. A machine learning algorithm would not have such coded
+definition of what a good and bad sentiment is, but would
+"learn-by-examples". That is, you will show several words which have
+been labeled as good sentiment and bad sentiment and a good ML algorithm
+will eventually learn and be able to predict whether or not an unseen
+word has a good or bad sentiment. This particular example of sentiment
+analysis is "supervised", which means that your example words must be
+labeled, or explicitly say which words are good and which are bad.
+
+On the other hand, in the case of unsupervised learning, the word
+examples are not labeled. Of course, in such a case the algorithm itself
+cannot "invent" what a good sentiment is, but it can try to cluster the
+data into different groups, e.g. it can figure out that words that are
+close to certain other words are different from words closer to some
+other words (eg. words close to the word "mother" are most likely good).
+There are "intermediate" forms of supervision, i.e. semi-supervised and
+active learning. Technically, these are supervised methods in which
+there is some "smart" way to avoid a large number of labeled examples.
+
+\begin{itemize}
+\tightlist
+\item
+  In active learning, the algorithm itself decides which thing you
+  should label (e.g. it can be pretty sure about a sentence that has the
+  word fantastic, but it might ask you to confirm if the sentence may
+  have a negative like ``not'').
+\item
+  In semi-supervised learning, there are two different algorithms, which
+  start with the labeled examples, and then "tell" each other the way
+  they think about some large number of unlabeled data. From this
+  "discussion" they learn.
+\end{itemize}
+
+\paragraph{Figure : Supervised learning
+approach}\label{figure-supervised-learning-approach}
+
+\begin{verbatim}
+<img src="ML_supervised.gif"  width="500" title="Supervised learning">
+\end{verbatim}
+
+*REF: http://www.nltk.org/book/ch06.html
+
+    \subsubsection{1.1 Feature extraction}\label{feature-extraction}
+
+Define what features of a word that you want to use in order to classify
+the data set. We will select two features the first and the last letter
+of the word.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{k}{def} \PY{n+nf}{feature\PYZus{}extractor}\PY{p}{(}\PY{n}{word}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Extract the features for a given word and return a dictonary of the features\PYZdq{}\PYZdq{}\PYZdq{}}
+            \PY{n}{start\PYZus{}letter} \PY{o}{=} \PY{n}{word}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+            \PY{n}{last\PYZus{}letter} \PY{o}{=} \PY{n}{word}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
+            \PY{k}{return} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}letter}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{start\PYZus{}letter}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{last\PYZus{}letter}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{last\PYZus{}letter}\PY{p}{\PYZcb{}}
+        
+        \PY{k}{def} \PY{n+nf}{main}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{n+nb}{print}\PY{p}{(}\PY{n}{feature\PYZus{}extractor}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{poonacha}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+                  
+        \PY{n}{main}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \subsubsection{1.2 Training the ML
+algorithm}\label{training-the-ml-algorithm}
+
+NLTK module is built for working with language data. NLTK supports
+classification, tokenization, stemming, tagging, parsing, and semantic
+reasoning functionalities. We will use the NLTK module and employ the
+naive Bayes method to classify words as being either positive or
+negative sentiment. You can also use other modules specifically meant
+for ML eg. sklearn module.
+
+\paragraph{Step 1: Create the feature
+set}\label{step-1-create-the-feature-set}
+
+We will use the corpus of sentiments from the word\_sentiment.csv file
+to create a feature dataset which we will use to train and test the ML
+model.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{import} \PY{n+nn}{csv}
+        
+        \PY{k}{def} \PY{n+nf}{feature\PYZus{}extractor}\PY{p}{(}\PY{n}{word}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Extract the features for a given word and return a dictonary of the features\PYZdq{}\PYZdq{}\PYZdq{}}
+            \PY{n}{start\PYZus{}letter} \PY{o}{=} \PY{n}{word}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+            \PY{n}{last\PYZus{}letter} \PY{o}{=} \PY{n}{word}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
+            \PY{k}{return} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}letter}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{start\PYZus{}letter}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{last\PYZus{}letter}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{last\PYZus{}letter}\PY{p}{\PYZcb{}}
+        
+        \PY{k}{def} \PY{n+nf}{ML\PYZus{}train}\PY{p}{(}\PY{n}{sentiment\PYZus{}corpus}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Create feature set from the corpus given to to it.\PYZdq{}\PYZdq{}\PYZdq{}}
+            \PY{n}{feature\PYZus{}set} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+            \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{sentiment\PYZus{}corpus}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{encoding} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{utf\PYZhy{}8}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{sentobj}\PY{p}{:}
+                \PY{n}{sentiment\PYZus{}handle} \PY{o}{=} \PY{n}{csv}\PY{o}{.}\PY{n}{reader}\PY{p}{(}\PY{n}{sentobj}\PY{p}{)}
+         
+                \PY{k}{for} \PY{n}{sentiment} \PY{o+ow}{in} \PY{n}{sentiment\PYZus{}handle}\PY{p}{:}
+                    \PY{n}{new\PYZus{}row} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                    \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{feature\PYZus{}extractor}\PY{p}{(}\PY{n}{sentiment}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)} \PY{c+c1}{\PYZsh{}get the dictionary of features for a word}
+                    \PY{k}{if} \PY{n+nb}{int}\PY{p}{(}\PY{n}{sentiment}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+m+mi}{0}\PY{p}{:} \PY{c+c1}{\PYZsh{} Club the sentiment values (\PYZhy{}5 to + 5) to just positive or negative}
+                        \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{positive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+                    \PY{k}{else}\PY{p}{:}
+                        \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{negative}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+                    \PY{n}{feature\PYZus{}set}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{new\PYZus{}row}\PY{p}{)}
+                \PY{n+nb}{print}\PY{p}{(}\PY{n}{feature\PYZus{}set}\PY{p}{)}
+        
+        \PY{k}{def} \PY{n+nf}{main}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{n}{sentiment\PYZus{}csv} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C:/Users/kmpoo/Dropbox/HEC/Teaching/Python for PhD Mar 2018/python4phd/Session 3/Sent/word\PYZus{}sentiment.csv}\PY{l+s+s2}{\PYZdq{}}
+            \PY{n}{ML\PYZus{}train}\PY{p}{(}\PY{n}{sentiment\PYZus{}csv}\PY{p}{)}
+                  
+        \PY{n}{main}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \paragraph{Step 2: Split the feature set into training and testing
+sets}\label{step-2-split-the-feature-set-into-training-and-testing-sets}
+
+We will split the feature data set into training and test data sets. The
+training set is used to train our ML model and then the testing set can
+be used to check how good the model is. It is normal to use 20\% of the
+data set for testing purposes. In our case we will retain 1500 words for
+training and the rest for testing.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{import} \PY{n+nn}{csv}
+        \PY{k+kn}{import} \PY{n+nn}{random}
+        
+        \PY{k}{def} \PY{n+nf}{feature\PYZus{}extractor}\PY{p}{(}\PY{n}{word}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Extract the features for a given word and return a dictonary of the features\PYZdq{}\PYZdq{}\PYZdq{}}
+            \PY{n}{start\PYZus{}letter} \PY{o}{=} \PY{n}{word}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+            \PY{n}{last\PYZus{}letter} \PY{o}{=} \PY{n}{word}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
+            \PY{k}{return} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}letter}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{start\PYZus{}letter}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{last\PYZus{}letter}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{last\PYZus{}letter}\PY{p}{\PYZcb{}}
+        
+        \PY{k}{def} \PY{n+nf}{ML\PYZus{}train}\PY{p}{(}\PY{n}{sentiment\PYZus{}corpus}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Create feature set from the corpus given to to it. Split the  feature set into training and testing sets\PYZdq{}\PYZdq{}\PYZdq{}}
+            \PY{n}{feature\PYZus{}set} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+            \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{sentiment\PYZus{}corpus}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{encoding} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{utf\PYZhy{}8}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{sentobj}\PY{p}{:}
+                \PY{n}{sentiment\PYZus{}handle} \PY{o}{=} \PY{n}{csv}\PY{o}{.}\PY{n}{reader}\PY{p}{(}\PY{n}{sentobj}\PY{p}{)}
+         
+                \PY{k}{for} \PY{n}{sentiment} \PY{o+ow}{in} \PY{n}{sentiment\PYZus{}handle}\PY{p}{:}
+                    \PY{n}{new\PYZus{}row} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                    \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{feature\PYZus{}extractor}\PY{p}{(}\PY{n}{sentiment}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)} \PY{c+c1}{\PYZsh{}get the dictionary of features for a word}
+                    \PY{k}{if} \PY{n+nb}{int}\PY{p}{(}\PY{n}{sentiment}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+m+mi}{0}\PY{p}{:} \PY{c+c1}{\PYZsh{} Club the sentiment values (\PYZhy{}5 to + 5) to just positive or negative}
+                        \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{positive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+                    \PY{k}{else}\PY{p}{:}
+                        \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{negative}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+                    \PY{n}{feature\PYZus{}set}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{new\PYZus{}row}\PY{p}{)}
+                
+                \PY{n}{random}\PY{o}{.}\PY{n}{shuffle}\PY{p}{(}\PY{n}{feature\PYZus{}set}\PY{p}{)}
+                \PY{c+c1}{\PYZsh{} We need to shuffle the features since the word\PYZus{}sentiment.csv had words arranged in alphabetical order}
+                \PY{n}{train\PYZus{}set} \PY{o}{=} \PY{n}{feature\PYZus{}set}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{1500}\PY{p}{]} \PY{c+c1}{\PYZsh{}the first 1500 words becomes our training set}
+                \PY{n}{test\PYZus{}set} \PY{o}{=} \PY{n}{feature\PYZus{}set}\PY{p}{[}\PY{l+m+mi}{1500}\PY{p}{:}\PY{p}{]}
+                \PY{n+nb}{print}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{test\PYZus{}set}\PY{p}{)}\PY{p}{)}
+        
+        \PY{k}{def} \PY{n+nf}{main}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{n}{sentiment\PYZus{}csv} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C:/Users/kmpoo/Dropbox/HEC/Teaching/Python for PhD Mar 2018/python4phd/Session 3/Sent/word\PYZus{}sentiment.csv}\PY{l+s+s2}{\PYZdq{}}
+            \PY{n}{ML\PYZus{}train}\PY{p}{(}\PY{n}{sentiment\PYZus{}csv}\PY{p}{)}
+                  
+        \PY{n}{main}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \paragraph{Step 3: Use ML method (naive Bayes) to create the classifier
+model}\label{step-3-use-ml-method-naive-bayes-to-create-the-classifier-model}
+
+The NLTK module gives us several ML methods to create a classifier model
+using our training set and based on our selected features.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{import} \PY{n+nn}{csv}
+        \PY{k+kn}{import} \PY{n+nn}{random}
+        \PY{k+kn}{import} \PY{n+nn}{nltk}
+        
+        \PY{k}{def} \PY{n+nf}{feature\PYZus{}extractor}\PY{p}{(}\PY{n}{word}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Extract the features for a given word and return a dictonary of the features\PYZdq{}\PYZdq{}\PYZdq{}}
+            \PY{n}{start\PYZus{}letter} \PY{o}{=} \PY{n}{word}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+            \PY{n}{last\PYZus{}letter} \PY{o}{=} \PY{n}{word}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
+            \PY{k}{return} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}letter}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{start\PYZus{}letter}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{last\PYZus{}letter}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{last\PYZus{}letter}\PY{p}{\PYZcb{}}
+        
+        \PY{k}{def} \PY{n+nf}{ML\PYZus{}train}\PY{p}{(}\PY{n}{sentiment\PYZus{}corpus}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Create feature set from the corpus given to to it. Split the  feature set into training and testing sets.}
+        \PY{l+s+sd}{    Train the classifier using the naive Bayes model and return the classifier. \PYZdq{}\PYZdq{}\PYZdq{}}
+            \PY{n}{feature\PYZus{}set} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+            \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{sentiment\PYZus{}corpus}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{encoding} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{utf\PYZhy{}8}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{sentobj}\PY{p}{:}
+                \PY{n}{sentiment\PYZus{}handle} \PY{o}{=} \PY{n}{csv}\PY{o}{.}\PY{n}{reader}\PY{p}{(}\PY{n}{sentobj}\PY{p}{)}
+         
+                \PY{k}{for} \PY{n}{sentiment} \PY{o+ow}{in} \PY{n}{sentiment\PYZus{}handle}\PY{p}{:}
+                    \PY{n}{new\PYZus{}row} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                    \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{feature\PYZus{}extractor}\PY{p}{(}\PY{n}{sentiment}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)} \PY{c+c1}{\PYZsh{}get the dictionary of features for a word}
+                    \PY{k}{if} \PY{n+nb}{int}\PY{p}{(}\PY{n}{sentiment}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+m+mi}{0}\PY{p}{:} \PY{c+c1}{\PYZsh{} Club the sentiment values (\PYZhy{}5 to + 5) to just positive or negative}
+                        \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{positive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+                    \PY{k}{else}\PY{p}{:}
+                        \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{negative}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+                    \PY{n}{feature\PYZus{}set}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{new\PYZus{}row}\PY{p}{)}
+                
+                \PY{n}{random}\PY{o}{.}\PY{n}{shuffle}\PY{p}{(}\PY{n}{feature\PYZus{}set}\PY{p}{)}
+                \PY{c+c1}{\PYZsh{} We need to shuffle the features since the word\PYZus{}sentiment.csv had words arranged in alphabetical order}
+                \PY{n}{train\PYZus{}set} \PY{o}{=} \PY{n}{feature\PYZus{}set}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{1500}\PY{p}{]} \PY{c+c1}{\PYZsh{}the first 1500 words becomes our training set}
+                \PY{n}{test\PYZus{}set} \PY{o}{=} \PY{n}{feature\PYZus{}set}\PY{p}{[}\PY{l+m+mi}{1500}\PY{p}{:}\PY{p}{]}
+                \PY{n}{classifier} \PY{o}{=} \PY{n}{nltk}\PY{o}{.}\PY{n}{NaiveBayesClassifier}\PY{o}{.}\PY{n}{train}\PY{p}{(}\PY{n}{train\PYZus{}set}\PY{p}{)}
+                \PY{c+c1}{\PYZsh{} Note: to create the classifier we need to provide a dictonary of features and the label ONLY}
+                \PY{k}{return} \PY{n}{classifier}
+        
+        \PY{k}{def} \PY{n+nf}{main}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{n}{sentiment\PYZus{}csv} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C:/Users/kmpoo/Dropbox/HEC/Teaching/Python for PhD Mar 2018/python4phd/Session 3/Sent/word\PYZus{}sentiment.csv}\PY{l+s+s2}{\PYZdq{}}
+            \PY{n}{classifier} \PY{o}{=} \PY{n}{ML\PYZus{}train}\PY{p}{(}\PY{n}{sentiment\PYZus{}csv}\PY{p}{)}
+            \PY{n}{input\PYZus{}word} \PY{o}{=} \PY{n+nb}{input}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Enter a word }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)}
+            \PY{n}{sentiment} \PY{o}{=} \PY{n}{classifier}\PY{o}{.}\PY{n}{classify}\PY{p}{(}\PY{n}{feature\PYZus{}extractor}\PY{p}{(}\PY{n}{input\PYZus{}word}\PY{p}{)}\PY{p}{)}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sentiment of word }\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{input\PYZus{}word}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{ is : }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{sentiment}\PY{p}{)}
+                  
+        \PY{n}{main}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \paragraph{Step 4: Testing the model}\label{step-4-testing-the-model}
+
+Find how good the model is in identifying the labels. Ensure that the
+test set is distinct from the training corpus. If we simply re-used the
+training set as the test set, then a model that simply memorized its
+input, without learning how to generalize to new examples, would receive
+misleadingly high scores. The function nltk.classify.accuracy() will
+calculate the accuracy of a classifier model on a given test set.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{import} \PY{n+nn}{csv}
+        \PY{k+kn}{import} \PY{n+nn}{random}
+        \PY{k+kn}{import} \PY{n+nn}{nltk}
+        
+        \PY{k}{def} \PY{n+nf}{feature\PYZus{}extractor}\PY{p}{(}\PY{n}{word}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Extract the features for a given word and return a dictonary of the features\PYZdq{}\PYZdq{}\PYZdq{}}
+            \PY{n}{start\PYZus{}letter} \PY{o}{=} \PY{n}{word}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+            \PY{n}{last\PYZus{}letter} \PY{o}{=} \PY{n}{word}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
+            \PY{k}{return} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}letter}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{start\PYZus{}letter}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{last\PYZus{}letter}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{last\PYZus{}letter}\PY{p}{\PYZcb{}}
+        
+        \PY{k}{def} \PY{n+nf}{ML\PYZus{}train}\PY{p}{(}\PY{n}{sentiment\PYZus{}corpus}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Create feature set from the corpus given to to it. Split the  feature set into training and testing sets.}
+        \PY{l+s+sd}{    Train the classifier using the naive Bayes model and return the classifier. \PYZdq{}\PYZdq{}\PYZdq{}}
+            \PY{n}{feature\PYZus{}set} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+            \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{sentiment\PYZus{}corpus}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{encoding} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{utf\PYZhy{}8}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{sentobj}\PY{p}{:}
+                \PY{n}{sentiment\PYZus{}handle} \PY{o}{=} \PY{n}{csv}\PY{o}{.}\PY{n}{reader}\PY{p}{(}\PY{n}{sentobj}\PY{p}{)}
+         
+                \PY{k}{for} \PY{n}{sentiment} \PY{o+ow}{in} \PY{n}{sentiment\PYZus{}handle}\PY{p}{:}
+                    \PY{n}{new\PYZus{}row} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+                    \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{feature\PYZus{}extractor}\PY{p}{(}\PY{n}{sentiment}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)} \PY{c+c1}{\PYZsh{}get the dictionary of features for a word}
+                    \PY{k}{if} \PY{n+nb}{int}\PY{p}{(}\PY{n}{sentiment}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+m+mi}{0}\PY{p}{:} \PY{c+c1}{\PYZsh{} Club the sentiment values (\PYZhy{}5 to + 5) to just positive or negative}
+                        \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{positive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+                    \PY{k}{else}\PY{p}{:}
+                        \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{negative}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+                    \PY{n}{feature\PYZus{}set}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{new\PYZus{}row}\PY{p}{)}
+                
+                \PY{n}{random}\PY{o}{.}\PY{n}{shuffle}\PY{p}{(}\PY{n}{feature\PYZus{}set}\PY{p}{)}
+                \PY{c+c1}{\PYZsh{} We need to shuffle the features since the word\PYZus{}sentiment.csv had words arranged in alphabetical order}
+                \PY{n}{train\PYZus{}set} \PY{o}{=} \PY{n}{feature\PYZus{}set}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{1500}\PY{p}{]} \PY{c+c1}{\PYZsh{}the first 1500 words becomes our training set}
+                \PY{n}{test\PYZus{}set} \PY{o}{=} \PY{n}{feature\PYZus{}set}\PY{p}{[}\PY{l+m+mi}{1500}\PY{p}{:}\PY{p}{]}
+                \PY{n}{classifier} \PY{o}{=} \PY{n}{nltk}\PY{o}{.}\PY{n}{NaiveBayesClassifier}\PY{o}{.}\PY{n}{train}\PY{p}{(}\PY{n}{train\PYZus{}set}\PY{p}{)}
+                \PY{c+c1}{\PYZsh{} Note: to create the classifier we need to provide a dictonary of features and the label ONLY}
+                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Test accuracy of the classifier = }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{nltk}\PY{o}{.}\PY{n}{classify}\PY{o}{.}\PY{n}{accuracy}\PY{p}{(}\PY{n}{classifier}\PY{p}{,} \PY{n}{test\PYZus{}set}\PY{p}{)}\PY{p}{)}
+                \PY{n+nb}{print}\PY{p}{(}\PY{n}{classifier}\PY{o}{.}\PY{n}{show\PYZus{}most\PYZus{}informative\PYZus{}features}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+                \PY{k}{return} \PY{n}{classifier}
+        
+        \PY{k}{def} \PY{n+nf}{main}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{n}{sentiment\PYZus{}csv} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C:/Users/kmpoo/Dropbox/HEC/Teaching/Python for PhD Mar 2018/python4phd/Session 3/Sent/word\PYZus{}sentiment.csv}\PY{l+s+s2}{\PYZdq{}}
+            \PY{n}{classifier} \PY{o}{=} \PY{n}{ML\PYZus{}train}\PY{p}{(}\PY{n}{sentiment\PYZus{}csv}\PY{p}{)}
+            \PY{n}{input\PYZus{}word} \PY{o}{=} \PY{n+nb}{input}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Enter a word }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)}
+            \PY{n}{sentiment} \PY{o}{=} \PY{n}{classifier}\PY{o}{.}\PY{n}{classify}\PY{p}{(}\PY{n}{feature\PYZus{}extractor}\PY{p}{(}\PY{n}{input\PYZus{}word}\PY{p}{)}\PY{p}{)}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sentiment of word }\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{input\PYZus{}word}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{ is : }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{sentiment}\PY{p}{)}
+                  
+        \PY{n}{main}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \paragraph{Excercise}\label{excercise}
+
+\emph{Improve the feature extractor (by adding new features) so that the
+test accuracy can go up to atleast 70\%.}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{}Enter code here}
+        
+        
+        
+        
+        \PY{c+c1}{\PYZsh{}}
+\end{Verbatim}
+
+
+    \paragraph{Step 5: Development testing and error
+analysis}\label{step-5-development-testing-and-error-analysis}
+
+Using a seperate dev-test set, we can generate a list of the errors that
+the classifier makes when predicting the sentiment. We can then examine
+individual error cases where the model predicted the wrong label, and
+try to determine what additional pieces of information would allow it to
+make the right decision (or which existing pieces of information are
+tricking it into making the wrong decision). The feature set can then be
+adjusted accordingly.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
