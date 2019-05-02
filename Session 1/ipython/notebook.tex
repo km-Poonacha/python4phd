@@ -141,7 +141,7 @@
     \def\gt{>}
     \def\lt{<}
     % Document parameters
-    \title{Lesson 2 - Functions and Modules}
+    \title{Lesson 1 - Data and Types}
     
     
     
@@ -280,98 +280,245 @@
     
 
     
-    \section{Lesson 2: Functions and
-Modules}\label{lesson-2-functions-and-modules}
+    \section{Lesson 1: Data and Types}\label{lesson-1-data-and-types}
 
-    \subsubsection{Functions}\label{functions}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  Block of organized, reusable code that is used to perform a single,
-  related action
-\item
-  Provide better modularity for your application and a high degree of
-  code reusing
-\item
-  Python gives you many built-in functions like print(), len() etc..
-\item
-  It is also possible to define user-defined functions
-\end{enumerate}
-
-\emph{Wite a small function that checks if the number entered by the
-user is 5}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}1}]:} \PY{c+c1}{\PYZsh{} FUNCTION DEFINITION}
-        \PY{k}{def} \PY{n+nf}{check\PYZus{}if\PYZus{}5}\PY{p}{(}\PY{n}{user\PYZus{}number}\PY{p}{)}\PY{p}{:}
-            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}This function just checks if the number passed to it is equal}
-        \PY{l+s+sd}{    to 5. It returns 1 if the number is 5 and returns 0 if the number is not 5 \PYZdq{}\PYZdq{}\PYZdq{}}
-            \PY{k}{if} \PY{n}{user\PYZus{}number} \PY{o}{==} \PY{l+m+mi}{5}\PY{p}{:}
-                \PY{k}{return} \PY{l+m+mi}{1}
-            \PY{k}{else}\PY{p}{:}
-                \PY{k}{return} \PY{l+m+mi}{0}
-        
-        \PY{c+c1}{\PYZsh{}FUNCTION CALL}
-        \PY{n}{return\PYZus{}val} \PY{o}{=} \PY{n}{check\PYZus{}if\PYZus{}5}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
-        
-        \PY{k}{if} \PY{n}{return\PYZus{}val} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{:}
-            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{It is 5}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
-        \PY{k}{else}\PY{p}{:}
-            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{It is not 5}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-It is 5
-
-    \end{Verbatim}
-
-    
-
-    \subsubsection{Modules}\label{modules}
+    In this lesson we learn about the basic data types and data structures
+and play with them a little.
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  A set of related functions can be grouped together as module
+  Defines the format by which you input data to a program, modify it and
+  output it in the consol
 \item
-  A module is nothing but a python file
+  Data types: integer, float, string and boolean
 \item
-  The open source community continuosly builds modules and makes it
-  available for us
+  Data structures: Lists, dictionaries, tuples etc
 \item
-  To access these modules we need to use the "import command"
+  Global vs. local variable
 \end{enumerate}
 
-\emph{Let us import a commonly used module and access one of its
-functions.}
+Lets start by initializing integer, string, list and dictionary
+
+    \subsection{Data Types}\label{data-types}
+
+\emph{Let us create an integer and string variable and see its output.}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}2}]:} \PY{k+kn}{import} \PY{n+nn}{random}
-        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{A random number between 1 and 6 is: }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}1}]:} \PY{n}{integer} \PY{o}{=} \PY{l+m+mi}{99}
+        \PY{n}{string} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{poonacha}\PY{l+s+s1}{\PYZsq{}}
+        
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{This is an integer: }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{integer} \PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{This is a string: }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{string} \PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-A random number between 1 and 6 is:  6
+This is an integer:  99
+This is a string:  poonacha
 
     \end{Verbatim}
 
-    It is also possible to import specific functions from within the module
-directly. When you do this make sure you have not used the same name for
-your function.
+    \subsubsection{Some Simple Data
+Operations}\label{some-simple-data-operations}
+
+Most integer/floating point operators that you use in stata or other
+languages work in python as well - eg (+,-,*,/).
+
+\emph{Let us write a code to find the quotient and reminder of a number
+given a divisor. The operator '//' can be used to find the quotient and
+'\%' can be used to find the reminder.}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}3}]:} \PY{k+kn}{from} \PY{n+nn}{random} \PY{k}{import} \PY{n}{randint}
-        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{A random number between 1 and 6 is: }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}2}]:} \PY{n}{number} \PY{o}{=} \PY{l+m+mi}{199}
+        \PY{n}{divisor} \PY{o}{=} \PY{l+m+mi}{10}
+        \PY{n}{rem} \PY{o}{=} \PY{l+m+mi}{199} \PY{o}{\PYZpc{}} \PY{l+m+mi}{10}
+        \PY{n}{quotient} \PY{o}{=} \PY{l+m+mi}{199} \PY{o}{/}\PY{o}{/} \PY{l+m+mi}{10}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{reminder = }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{rem}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{quotient = }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{quotient}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-A random number between 1 and 6 is:  3
+reminder =  9 quotient =  19
+
+    \end{Verbatim}
+
+    \subsection{Data Structures}\label{data-structures}
+
+Data structures combine the basic datatypes (integer, float, string,
+boolean) to create more complex types. There are several types of data
+structures but the most commonly used ones are "lists" and
+"dictionaries"
+
+\subsubsection{Lists}\label{lists}
+
+We start with a list. A list is a sequence of integer / character data
+types. Let us now create two list's one with only integer data "i\_list"
+and the other with only character data "c\_list".
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{n}{i\PYZus{}list} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{]}
+        \PY{n}{c\PYZus{}list} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{day}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{month}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+        
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{This is an integer list: }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{i\PYZus{}list} \PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{This is a char list: }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{c\PYZus{}list} \PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+This is an integer list:  [1, 2, 3, 4]
+This is a char list:  ['day', 'month', 'year']
+
+    \end{Verbatim}
+
+    The elements in the lists are numbered upwards from 0. Hence, we can
+access each element in the list using its index number. The following
+code prints the first element of c\_list.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The first element is: }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{c\PYZus{}list}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+The first element is:  day
+
+    \end{Verbatim}
+
+    \paragraph{List Operations}\label{list-operations}
+
+Lists are mutable i.e. we can append, insert and delete elements from
+the list.
+
+Syntax - append(\emph{data to be entered}), insert(\emph{index},
+\emph{data}), del(\emph{index})
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{n}{i\PYZus{}list} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{]}
+        
+        \PY{c+c1}{\PYZsh{} Append the number 5 at the end}
+        \PY{n}{i\PYZus{}list}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{i\PYZus{}list}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Insert the 1.5 between 1 and 2}
+        \PY{n}{i\PYZus{}list}\PY{o}{.}\PY{n}{insert}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mf}{1.5}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{i\PYZus{}list}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{}delete the number 1.5}
+        \PY{k}{del} \PY{n}{i\PYZus{}list}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{i\PYZus{}list}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{}delete the number between position 0 and 2}
+        \PY{k}{del} \PY{n}{i\PYZus{}list}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{]}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{i\PYZus{}list}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{}delete the entire list}
+        \PY{k}{del} \PY{n}{i\PYZus{}list}\PY{p}{[}\PY{p}{:}\PY{p}{]}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{i\PYZus{}list}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[1, 2, 3, 4, 5]
+[1, 1.5, 2, 3, 4, 5]
+[1, 2, 3, 4, 5]
+[3, 4, 5]
+[]
+
+    \end{Verbatim}
+
+    \subsubsection{String}\label{string}
+
+Strings are used to input and read sentences and words. There are
+several operations that can be done on a string. 1. Concatinating - We
+can use either "+" operator combine two strings. Join() can be used to
+combine a list of strings into a single string.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{n}{string} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{poonacha}\PY{l+s+s1}{\PYZsq{}}
+        \PY{n}{string} \PY{o}{=} \PY{n}{string} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ medappa}\PY{l+s+s1}{\PYZsq{}} 
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{string}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{string}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{:}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+poonacha medappa
+poo
+
+    \end{Verbatim}
+
+    \begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  split('\emph{seperator}') - We can use the split() command to split a
+  string into a list of smaller strings depending on a specified
+  seperator
+\item
+  Conversely, join('\emph{seperator}') can be used to combine a list of
+  strings into a single string using the seperator
+\item
+  If no seperator is specified, it assumes the seperator is a space or a
+  tab
+\item
+  The input('\emph{input message}') function is used to enter data from
+  the consol
+\end{enumerate}
+
+\emph{Let us write a code to enter a sentence and split it into a list
+of words.}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{n}{s\PYZus{}input} \PY{o}{=} \PY{n+nb}{input}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Enter the sentence to be split: }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{words} \PY{o}{=} \PY{n}{s\PYZus{}input}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{words}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{words}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Enter the sentence to be split: My name is poonacha
+['My', 'name', 'is', 'poonacha']
+My
+
+    \end{Verbatim}
+
+    \subparagraph{Excercise 1:}\label{excercise-1}
+
+\emph{Write a small code to enter a date in "dd/mm/yyyy" format. Use the
+split() command to split the entered date into day, month and year.
+Hint. you need to specify the seperater as '/'.}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}0}]:} \PY{c+c1}{\PYZsh{} Enter Code}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Enter date in dd/mm/yyyy format:25/09/1984
+the entered date is; day  25 month:  09 year:  1984
+
+    \end{Verbatim}
+
+    \subsubsection{Dictionaries}\label{dictionaries}
+
+A dictionary is similar to a list but rather than an index which
+represents each element, the dictionary uses a unique user defined key.
+The following code creates a dictionary by the name "dict\_date" with
+three elements representing the current day, month and year.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{n}{dict\PYZus{}date} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{day}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{l+m+mi}{14} \PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{month}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{l+m+mi}{3}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{year}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{l+m+mi}{2018}\PY{p}{\PYZcb{}} 
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{This is a dictionary: }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{dict\PYZus{}date}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Today in dictionary is: day \PYZhy{} }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{dict\PYZus{}date}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{day}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ month \PYZhy{} }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{dict\PYZus{}date}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{month}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ year \PYZhy{} }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{dict\PYZus{}date}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{year}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+This is a dictionary:  \{'day': 14, 'month': 3, 'year': 2018\}
+Today in dictionary is: day -  14  month -  3  year -  2018
 
     \end{Verbatim}
 
