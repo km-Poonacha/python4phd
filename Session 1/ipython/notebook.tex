@@ -141,7 +141,7 @@
     \def\gt{>}
     \def\lt{<}
     % Document parameters
-    \title{Excercise - Working With CSV}
+    \title{Lesson 2 - Functions and Modules}
     
     
     
@@ -280,202 +280,100 @@
     
 
     
-    \section{Excercise - Working With
-CSV}\label{excercise---working-with-csv}
+    \section{Lesson 2: Functions and
+Modules}\label{lesson-2-functions-and-modules}
 
-    \subsubsection{Using the CSV module}\label{using-the-csv-module}
+    \subsubsection{Functions}\label{functions}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  A CSV file is often used exchange format for spreadsheets and
-  databases.
+  Block of organized, reusable code that is used to perform a single,
+  related action
 \item
-  Each line is called a record and each field within a record is
-  seperated by a delimiter such as comma, tab etc.
+  Provide better modularity for your application and a high degree of
+  code reusing
 \item
-  Keep in mind that Mac uses a different delimiter to determine the end
-  of a row in a CSV file than Microsoft. Since the CSV python module we
-  will use works well with Windows CSV files, we will save and use a
-  Windows CSV file in our program. So in MAC, you have to save the CSV
-  file as "windows csv" file rather than just csv file.
+  Python gives you many built-in functions like print(), len() etc..
 \item
-  We use the module "CSV" which is not included in the standard library
-  of Python.
+  It is also possible to define user-defined functions
 \end{enumerate}
 
-    \emph{Let us write a program to read a CSV file (word\_sentiment.csv).
-This file contains a list of 2000 + words and its sentiment ranging form
--5 to +5.} \emph{Write a function "word\_sentiment" which checks if the
-entered word is found in the sentiment\_csv file and returns the
-corresponding sentiment. If the word is not found it returns 0.}
-
-    \paragraph{Step 1:Import the module
-CSV.}\label{step-1import-the-module-csv.}
-
-If any module is not included in the computer, we will need to do "pip
-install csv" in the terminal (in case of mac) or in the command prompt
-(in case of windows).
+\emph{Wite a small function that checks if the number entered by the
+user is 5}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{import} \PY{n+nn}{csv}
-\end{Verbatim}
-
-
-    \paragraph{Step 2: Assign the path of the file to a global variable
-"SENTIMENT\_CSV"}\label{step-2-assign-the-path-of-the-file-to-a-global-variable-sentiment_csv}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}4}]:} \PY{n}{SENTIMENT\PYZus{}CSV} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C:/Users/kmpoo/Dropbox/HEC/Teaching/Python for PhD Mar 2018/python4phd/Session 1/Sent/word\PYZus{}sentiment.csv}\PY{l+s+s2}{\PYZdq{}}
-\end{Verbatim}
-
-
-    \paragraph{Step 3: Open the file using the "with open()" command and
-read the
-file}\label{step-3-open-the-file-using-the-with-open-command-and-read-the-file}
-
-Before we read a file, we need to open it. The "with open()" command is
-very handy since it can open the file and give you a handler with which
-you can read the file. One of the benefits of the "with"command is that
-(unlike the simple open() command) it can automaticaly close the file,
-allowing write operations to be completed. The syntax is :
-
-\textbf{\emph{with open('filename', 'mode', 'encoding') as }fileobj* }*
-
-Where \textbf{\emph{fileobj}} is the file object returned by open();
-\textbf{\emph{filename}} is the string name of the file.
-\textbf{\emph{mode}} indicates what you want to do with the file and
-\textbf{\emph{ecoding}} defines the type of encoding with which you want
-to open the file.
-
-Mode could be: * w -\textgreater{} write. if the file exists it is
-overwritten * r -\textgreater{} read * a -\textgreater{} append. Write
-at the end of the file * x - \textgreater{} write. Only if the file does
-not exist. It does not allow a file to be re-written
-
-For each, adding a subfix 't' refers to read/write as text and the
-subfix 'b' refers to read/write as bytes.
-
-Encoding could be: * 'ascii' * 'utf-8' * 'latin-1' * 'cp-1252' *
-'unicode-escape'
-
-After opening the file, we call the \textbf{csv.reader()} function to
-read the data. It assigns a data structure (similar to a
-multidimentional list) which we can use to read any cell in the csv
-file.
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor} }]:} \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{SENTIMENT\PYZus{}CSV}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{encoding} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{utf\PYZhy{}8}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{senti\PYZus{}data}\PY{p}{:}
-            \PY{n}{sentiment} \PY{o}{=} \PY{n}{csv}\PY{o}{.}\PY{n}{reader}\PY{p}{(}\PY{n}{senti\PYZus{}data}\PY{p}{)}
-            \PY{k}{for} \PY{n}{data\PYZus{}row} \PY{o+ow}{in} \PY{n}{sentiment}\PY{p}{:}
-                \PY{n+nb}{print}\PY{p}{(}\PY{n}{data\PYZus{}row}\PY{p}{)}
-\end{Verbatim}
-
-
-    Let us package all of this into a nice function which - reads the
-word\_sentiment.csv file - searches for a particualr given word -
-returns the sentiment value of the word given to it. If the word is not
-found it returns 0 .
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}9}]:} \PY{c+c1}{\PYZsh{} Python version 3.5}
+{\color{incolor}In [{\color{incolor}1}]:} \PY{c+c1}{\PYZsh{} FUNCTION DEFINITION}
+        \PY{k}{def} \PY{n+nf}{check\PYZus{}if\PYZus{}5}\PY{p}{(}\PY{n}{user\PYZus{}number}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}This function just checks if the number passed to it is equal}
+        \PY{l+s+sd}{    to 5. It returns 1 if the number is 5 and returns 0 if the number is not 5 \PYZdq{}\PYZdq{}\PYZdq{}}
+            \PY{k}{if} \PY{n}{user\PYZus{}number} \PY{o}{==} \PY{l+m+mi}{5}\PY{p}{:}
+                \PY{k}{return} \PY{l+m+mi}{1}
+            \PY{k}{else}\PY{p}{:}
+                \PY{k}{return} \PY{l+m+mi}{0}
         
-        \PY{k+kn}{import} \PY{n+nn}{csv}
-        \PY{n}{SENTIMENT\PYZus{}CSV} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C:/Users/kmpoo/Dropbox/HEC/Teaching/Python for PhD Mar 2018/python4phd/Session 1/Sent/word\PYZus{}sentiment.csv}\PY{l+s+s2}{\PYZdq{}}  
-        \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}Updated the path to point to your file. The path provided changes based on your operating system. \PYZsq{}\PYZsq{}\PYZsq{}}
+        \PY{c+c1}{\PYZsh{}FUNCTION CALL}
+        \PY{n}{return\PYZus{}val} \PY{o}{=} \PY{n}{check\PYZus{}if\PYZus{}5}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
         
-        \PY{k}{def} \PY{n+nf}{word\PYZus{}sentiment}\PY{p}{(}\PY{n}{word}\PY{p}{)}\PY{p}{:}
-            \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}This function uses the word\PYZus{}sentiment.csv file to find the sentiment of the word }
-        \PY{l+s+sd}{    entered\PYZsq{}\PYZsq{}\PYZsq{}}
-            \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{SENTIMENT\PYZus{}CSV}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{encoding} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{utf\PYZhy{}8}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{senti\PYZus{}data}\PY{p}{:}
-                \PY{n}{sentiment} \PY{o}{=} \PY{n}{csv}\PY{o}{.}\PY{n}{reader}\PY{p}{(}\PY{n}{senti\PYZus{}data}\PY{p}{)}
-        
-                \PY{k}{for} \PY{n}{data\PYZus{}row} \PY{o+ow}{in} \PY{n}{sentiment}\PY{p}{:}          
-                    \PY{k}{if} \PY{n}{data\PYZus{}row}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{==} \PY{n}{word}\PY{p}{:}
-                        \PY{n}{sentiment\PYZus{}val} \PY{o}{=} \PY{n}{data\PYZus{}row}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}                
-                        \PY{k}{return} \PY{n}{sentiment\PYZus{}val}
-        
-                \PY{k}{return} \PY{l+m+mi}{0}    
-                        
-        \PY{k}{def} \PY{n+nf}{main}\PY{p}{(}\PY{p}{)}\PY{p}{:}
-            \PY{n}{word\PYZus{}in} \PY{o}{=} \PY{n+nb}{input}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{enter the word: }\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)}
-            \PY{n}{return\PYZus{}val} \PY{o}{=} \PY{n}{word\PYZus{}sentiment}\PY{p}{(}\PY{n}{word\PYZus{}in}\PY{p}{)}
-            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{the sentiment of the word }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{word\PYZus{}in} \PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ is: }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{return\PYZus{}val}\PY{p}{)}
-        \PY{n}{main}\PY{p}{(}\PY{p}{)}
+        \PY{k}{if} \PY{n}{return\PYZus{}val} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{:}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{It is 5}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{k}{else}\PY{p}{:}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{It is not 5}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-enter the word: poo
-the sentiment of the word  poo  is:  0
+It is 5
 
     \end{Verbatim}
 
-    \emph{Now let us update this code so that we ask the user to enter a
-sentence. We then break the sentence into words and find the sentiment
-of each word. We then aggregate the sentiments across all the words to
-calcuate the sentiment of the sentence and tell if the sentence entered
-is positive or negative. Hint: Use the split() command we saw in lesson
-1.}
+    
+
+    \subsubsection{Modules}\label{modules}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  A set of related functions can be grouped together as module
+\item
+  A module is nothing but a python file
+\item
+  The open source community continuosly builds modules and makes it
+  available for us
+\item
+  To access these modules we need to use the "import command"
+\end{enumerate}
+
+\emph{Let us import a commonly used module and access one of its
+functions.}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}12}]:} \PY{c+c1}{\PYZsh{} Python version 3.5}
-         \PY{k+kn}{import} \PY{n+nn}{csv}
-         \PY{n}{SENTIMENT\PYZus{}CSV} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C:/Users/kmpoo/Dropbox/HEC/Teaching/Python for PhD Mar 2018/python4phd/Session 1/Sent/word\PYZus{}sentiment.csv}\PY{l+s+s2}{\PYZdq{}}\PY{c+c1}{\PYZsh{}Updated the path to point to your file. }
-         \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}The path provided changes based on your operating system. For a windows system the format }
-         \PY{l+s+sd}{of the path will be \PYZdq{}C:/Users/User/Desktop/word\PYZus{}sentiment.csv\PYZdq{} \PYZsq{}\PYZsq{}\PYZsq{}}
-         
-         \PY{k}{def} \PY{n+nf}{word\PYZus{}sentiment}\PY{p}{(}\PY{n}{word}\PY{p}{)}\PY{p}{:}
-             \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}This function uses the word\PYZus{}sentiment.csv file to find the sentiment of the word }
-         \PY{l+s+sd}{    entered\PYZdq{}\PYZdq{}\PYZdq{}}
-             \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{SENTIMENT\PYZus{}CSV}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{encoding} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{utf\PYZhy{}8}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{senti\PYZus{}data}\PY{p}{:}
-                 \PY{n}{sentiment} \PY{o}{=} \PY{n}{csv}\PY{o}{.}\PY{n}{reader}\PY{p}{(}\PY{n}{senti\PYZus{}data}\PY{p}{)}
-         
-                 \PY{k}{for} \PY{n}{data\PYZus{}row} \PY{o+ow}{in} \PY{n}{sentiment}\PY{p}{:}          
-                     \PY{k}{if} \PY{n}{data\PYZus{}row}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{==} \PY{n}{word}\PY{p}{:}
-                         \PY{n}{sentiment\PYZus{}val} \PY{o}{=} \PY{n}{data\PYZus{}row}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}                
-                         \PY{k}{return} \PY{n}{sentiment\PYZus{}val}
-         
-                 \PY{k}{return} \PY{l+m+mi}{0}    
-                         
-         \PY{k}{def} \PY{n+nf}{main}\PY{p}{(}\PY{p}{)}\PY{p}{:}
-             \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}This function asks the user to input a sentence and tries to calculate the sentiment }
-         \PY{l+s+sd}{    of the sentence\PYZdq{}\PYZdq{}\PYZdq{}}
-             \PY{n}{sentiment} \PY{o}{=} \PY{l+m+mi}{0} 
-             \PY{n}{sentence\PYZus{}in} \PY{o}{=} \PY{n+nb}{input}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{enter the sentence: }\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)}
-             \PY{n}{words\PYZus{}list} \PY{o}{=} \PY{n}{sentence\PYZus{}in}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{p}{)}
-             \PY{k}{for} \PY{n}{word} \PY{o+ow}{in} \PY{n}{words\PYZus{}list}\PY{p}{:}
-                 \PY{n}{sentiment} \PY{o}{=} \PY{n}{sentiment} \PY{o}{+} \PY{n+nb}{int}\PY{p}{(}\PY{n}{word\PYZus{}sentiment}\PY{p}{(}\PY{n}{word}\PY{p}{)}\PY{p}{)}
-         
-             \PY{k}{if} \PY{n}{sentiment} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}\PY{p}{:} 
-                 \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{The entered sentence has a positive sentiment}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
-             \PY{k}{elif} \PY{n}{sentiment} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{:} 
-                 \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{The entered sentence has a neutral sentiment}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
-             \PY{k}{else}\PY{p}{:}
-                 \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{The entered sentence has a negative sentiment}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
-                       
-         \PY{n}{main}\PY{p}{(}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}2}]:} \PY{k+kn}{import} \PY{n+nn}{random}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{A random number between 1 and 6 is: }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{random}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-enter the sentence: poonacha is bad
-The entered sentence has a negative sentiment
+A random number between 1 and 6 is:  6
 
     \end{Verbatim}
 
-    \emph{Can you improve this code to handle double like "not" ? eg.
-"poonacha is not good" should return a negative sentiment rather than
-positive .}
+    It is also possible to import specific functions from within the module
+directly. When you do this make sure you have not used the same name for
+your function.
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{} Enter code here }
+{\color{incolor}In [{\color{incolor}3}]:} \PY{k+kn}{from} \PY{n+nn}{random} \PY{k}{import} \PY{n}{randint}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{A random number between 1 and 6 is: }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
 \end{Verbatim}
 
 
-    \emph{Do you think we can build a rudimentary learning algorithm to
-imporve the corpus of sentiments ?}
+    \begin{Verbatim}[commandchars=\\\{\}]
+A random number between 1 and 6 is:  3
+
+    \end{Verbatim}
 
 
     % Add a bibliography block to the postdoc
