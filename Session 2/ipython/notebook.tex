@@ -141,7 +141,7 @@
     \def\gt{>}
     \def\lt{<}
     % Document parameters
-    \title{Lesson 4 - Web API }
+    \title{Lesson 5- Crawl and scrape}
     
     
     
@@ -280,395 +280,265 @@
     
 
     
-    \section{Lesson 4 - Web API}\label{lesson-4---web-api}
+    \section{Lesson 5 - Crawl and Scrape}\label{lesson-5---crawl-and-scrape}
 
-    \subsection{Requesting information from the
-web}\label{requesting-information-from-the-web}
-
-    \subsubsection{Python 'requests' module.}\label{python-requests-module.}
-
-\begin{itemize}
-\tightlist
-\item
-  This module provides functions to send a HTTP request and get the
-  response from the server
-\item
-  Requests is a third party module. If not installed, we will need to do
-  "pip install requests" in the mac terminal or in the command pronpt of
-  windows.
-\item
-  http://docs.python-requests.org/en/master/user/quickstart/\#make-a-request
-\end{itemize}
+\subsection{Making the request}\label{making-the-request}
 
     \subsubsection{Using 'requests' module}\label{using-requests-module}
 
 Use the requests module to make a HTTP request to
-http://www.github.com/ibm - Check the status of the request - Display
+http://www.tripadvisor.com - Check the status of the request - Display
 the response header information
 
-\begin{verbatim}
-<img src="HTTPresponse.gif"  width="200" title="HTTP response packet">
-\end{verbatim}
-
-    \emph{Get status code for the request}
-
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{import} \PY{n+nn}{requests} 
-        \PY{n}{url} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{http://www.github.com/ibm}\PY{l+s+s1}{\PYZsq{}}
+{\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{import} \PY{n+nn}{requests} 
+        \PY{n}{url} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{http://www.tripadvisor.com/}\PY{l+s+s1}{\PYZsq{}}
         \PY{n}{response} \PY{o}{=} \PY{n}{requests}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{url}\PY{p}{)}
         
         \PY{n+nb}{print}\PY{p}{(}\PY{n}{response}\PY{o}{.}\PY{n}{status\PYZus{}code}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{}print(response.headers)}
 \end{Verbatim}
 
 
-    \begin{Verbatim}[commandchars=\\\{\}]
-200
-
-    \end{Verbatim}
-
-    \emph{Get header information}
+    \subsubsection{Get the '/robots.txt' file
+contents}\label{get-the-robots.txt-file-contents}
 
     \begin{Verbatim}[commandchars=\\\{\}]
 {\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{import} \PY{n+nn}{requests} 
-        \PY{n}{url} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{http://www.github.com/ibm}\PY{l+s+s1}{\PYZsq{}}
+        \PY{n}{url} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{http://www.tripadvisor.com/robots.txt}\PY{l+s+s1}{\PYZsq{}}
         \PY{n}{response} \PY{o}{=} \PY{n}{requests}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{url}\PY{p}{)}
         
-        \PY{n+nb}{print}\PY{p}{(}\PY{n}{response}\PY{o}{.}\PY{n}{status\PYZus{}code}\PY{p}{)}
-        
         \PY{k}{if} \PY{n}{response}\PY{o}{.}\PY{n}{status\PYZus{}code} \PY{o}{==} \PY{l+m+mi}{200}\PY{p}{:}
-            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Response status \PYZhy{} OK }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-            \PY{n+nb}{print}\PY{p}{(}\PY{n}{response}\PY{o}{.}\PY{n}{headers}\PY{p}{)}
-        \PY{k}{else}\PY{p}{:} 
-            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Error making the HTTP request }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{response}\PY{o}{.}\PY{n}{status\PYZus{}code}  \PY{p}{)}
-\end{Verbatim}
-
-
-    \emph{Get the body Information}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{import} \PY{n+nn}{requests} 
-        \PY{n}{url} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{http://www.github.com/ibm}\PY{l+s+s1}{\PYZsq{}}
-        \PY{n}{response} \PY{o}{=} \PY{n}{requests}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{url}\PY{p}{)}
-        
-        \PY{n+nb}{print}\PY{p}{(}\PY{n}{response}\PY{o}{.}\PY{n}{status\PYZus{}code}\PY{p}{)}
-        
-        \PY{k}{if} \PY{n}{response}\PY{o}{.}\PY{n}{status\PYZus{}code} \PY{o}{==} \PY{l+m+mi}{200}\PY{p}{:}
-            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Response status \PYZhy{} OK }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+            \PY{n+nb}{print}\PY{p}{(}\PY{n}{response}\PY{o}{.}\PY{n}{status\PYZus{}code}\PY{p}{)}
             \PY{n+nb}{print}\PY{p}{(}\PY{n}{response}\PY{o}{.}\PY{n}{text}\PY{p}{)}
-        \PY{k}{else}\PY{p}{:} 
-            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Error making the HTTP request }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{response}\PY{o}{.}\PY{n}{status\PYZus{}code}  \PY{p}{)}
+        \PY{k}{else}\PY{p}{:}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Failed to get a response from the url. Error code: }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{resp}\PY{o}{.}\PY{n}{status\PYZus{}code} \PY{p}{)}
 \end{Verbatim}
 
 
-    \subsection{Using a Web API to Collect
-Data}\label{using-a-web-api-to-collect-data}
-
-\begin{itemize}
-\tightlist
-\item
-  An application programming interface is a set of functions that you
-  call to get access to some service.
-\item
-  An API is basically a list of functions and datatsructures for
-  interfacting with websites's data.
-\end{itemize}
-
-The way these work is similar to viewing a web page. When you point your
-browser to a website, you do it with a URL (http://www.github.com/ibm
-for instance). Github sends you back data containing HTML, CSS, and
-Javascript. Your browser uses this data to construct the page that you
-see. The API works similarly, you request data with a URL
-(http://api.github.com/org/ibm), but instead of getting HTML and such,
-you get data formatted as JSON.
-
-    \subsubsection{Access data using web
-APIs}\label{access-data-using-web-apis}
-
-\emph{Write a program to access all the public OSS projects hosted by
-IBM on github.com using the web apis}
-
-    \paragraph{Step 1: Access the Web API service and check rate
-limits}\label{step-1-access-the-web-api-service-and-check-rate-limits}
+    \subsubsection{Get the HTML content from the
+website}\label{get-the-html-content-from-the-website}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}9}]:} \PY{k+kn}{import} \PY{n+nn}{requests}
-            
-        \PY{n}{url} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{https://api.github.com/orgs/ibm}\PY{l+s+s2}{\PYZdq{}}
+{\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{import} \PY{n+nn}{requests} 
+        \PY{n}{url} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{http://tripadvisor.com}\PY{l+s+s1}{\PYZsq{}}
         \PY{n}{response} \PY{o}{=} \PY{n}{requests}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{url}\PY{p}{)}
         
         \PY{k}{if} \PY{n}{response}\PY{o}{.}\PY{n}{status\PYZus{}code} \PY{o}{==} \PY{l+m+mi}{200}\PY{p}{:}
-            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Response status \PYZhy{} OK }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-            \PY{n+nb}{print}\PY{p}{(}\PY{n}{response}\PY{o}{.}\PY{n}{headers}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{X\PYZhy{}RateLimit\PYZhy{}Remaining}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+            \PY{n+nb}{print}\PY{p}{(}\PY{n}{response}\PY{o}{.}\PY{n}{status\PYZus{}code}\PY{p}{)}
+            \PY{n+nb}{print}\PY{p}{(}\PY{n}{response}\PY{o}{.}\PY{n}{text}\PY{p}{)}
         \PY{k}{else}\PY{p}{:}
-            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Error making the HTTP request }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{response}\PY{o}{.}\PY{n}{status\PYZus{}code}  \PY{p}{)}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Failed to get a response from the url. Error code: }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{resp}\PY{o}{.}\PY{n}{status\PYZus{}code} \PY{p}{)}
 \end{Verbatim}
 
 
+    \subsection{Scraping websites}\label{scraping-websites}
+
+Sometimes, you may want a little bit of information - a movie rating,
+stock price, or product availability - but the information is available
+only in HTML pages, surrounded by ads and extraneous content.
+
+To do this we build an automated web fetcher called a crawler or spider.
+After the HTML contents have been retrived from the remote web servers,
+a scraper parses it to find the needle in the haystack.
+
+    \subsubsection{BeautifulSoup Module}\label{beautifulsoup-module}
+
+    The bs4 module can be used for searching a webpage (HTML file) and
+pulling required data from it. It does three things to make a HTML page
+searchable- * First, converts the HTML page to Unicode, and HTML
+entities are converted to Unicode characters * Second, parses (analyses)
+the HTML page using the best available parser. It will use an HTML
+parser unless you specifically tell it to use an XML parser * Finally
+transforms a complex HTML document into a complex tree of Python
+objects.
+
+This module takes the HTML page and creates four kinds of objects: Tag,
+NavigableString, BeautifulSoup, and Comment. * The
+\textbf{\emph{BeautifulSoup}} object itself represents the webpage as a
+whole * A \textbf{\emph{Tag}} object corresponds to an XML or HTML tag
+in the webpage * The \textbf{\emph{NavigableString}} class to contains
+the bit of text within a tag
+
+Read more about BeautifulSoup :
+https://www.crummy.com/software/BeautifulSoup/bs4/doc/
+
     \begin{Verbatim}[commandchars=\\\{\}]
-Response status - OK 
-53
+{\color{incolor}In [{\color{incolor} }]:} \PY{o}{\PYZlt{}}\PY{n}{h1} \PY{n+nb}{id}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{HEADING}\PY{l+s+s2}{\PYZdq{}} \PY{n+nb}{property}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{name}\PY{l+s+s2}{\PYZdq{}} \PY{n}{class}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{heading\PYZus{}name   }\PY{l+s+s2}{\PYZdq{}}\PY{o}{\PYZgt{}}
+            \PY{o}{\PYZlt{}}\PY{n}{div} \PY{n}{class}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{heading\PYZus{}height}\PY{l+s+s2}{\PYZdq{}}\PY{o}{\PYZgt{}}\PY{o}{\PYZlt{}}\PY{o}{/}\PY{n}{div}\PY{o}{\PYZgt{}}
+             \PY{l+s+s2}{\PYZdq{}}
+             \PY{n}{Le} \PY{n}{Jardin} \PY{n}{Napolitain}
+             \PY{l+s+s2}{\PYZdq{}}
+        \PY{o}{\PYZlt{}}\PY{o}{/}\PY{n}{h1}\PY{o}{\PYZgt{}}
+\end{Verbatim}
 
-    \end{Verbatim}
 
-    \paragraph{Step 2: Authentication (if
-required)}\label{step-2-authentication-if-required}
+    \paragraph{Step 1: Making the soup}\label{step-1-making-the-soup}
 
-Authenticate requests to increase the API request limit. Access data
-that requires authentication.
+First we need to use the BeautifulSoup module to parse the HTML data
+into Python readable Unicode Text format.
 
-\subparagraph{Basic Authentication}\label{basic-authentication}
-
-\begin{itemize}
-\tightlist
-\item
-  Pass the userid and password as parameters in the response.get
-  function
-\item
-  Little risky and prone to hacking. Create dummy user ID and password
-\end{itemize}
-
-\subparagraph{OAUTH}\label{oauth}
-
-\begin{itemize}
-\tightlist
-\item
-  OAuth 2 is an authorization framework that enables a user to connect
-  to their account using a third party application
-\item
-  While this is more secure thant the basic authentication (i.e. passing
-  the userid and password while you make a http request), it is a little
-  more difficult to code.
-\item
-  It needs a personal token and a consumer key to be generated and
-  passed to the webserver
-\end{itemize}
-
-Unfortunately different websites have different ways of generating and
-using the token and consumer keys. Hence we will need to write the
-authorization code for each website seperately. HOwever, every website
-provides detailed information on how you can generate and send the token
-and keys.
+    \emph{Let us write the code to parse a html page. We will use the trip
+advisor URL for an infamous restaurant -
+https://www.tripadvisor.com/Restaurant\_Review-g187147-d1751525-Reviews-Cafe\_Le\_Dome-Paris\_Ile\_de\_France.html
+}
 
     \begin{Verbatim}[commandchars=\\\{\}]
 {\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{import} \PY{n+nn}{requests}
-            
-        \PY{k}{def} \PY{n+nf}{GithubAPI}\PY{p}{(}\PY{n}{url}\PY{p}{)}\PY{p}{:}
-            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} Make a HTTP request for the given URL and send the response body}
-        \PY{l+s+sd}{    back to the calling function\PYZdq{}\PYZdq{}\PYZdq{}}
-            \PY{c+c1}{\PYZsh{} Use basic authentication}
-            \PY{n}{response} \PY{o}{=} \PY{n}{requests}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{url}\PY{p}{,} \PY{n}{auth}\PY{o}{=}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ENTER USER ID}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ENTER PASSWORD}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
-            \PY{k}{if} \PY{n}{response}\PY{o}{.}\PY{n}{status\PYZus{}code} \PY{o}{==} \PY{l+m+mi}{200}\PY{p}{:}
-                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Response status \PYZhy{} OK }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-                \PY{n+nb}{print}\PY{p}{(}\PY{n}{response}\PY{o}{.}\PY{n}{headers}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{X\PYZhy{}RateLimit\PYZhy{}Remaining}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
-                \PY{k}{return} \PY{n}{response}\PY{o}{.}\PY{n}{text}
-            \PY{k}{else}\PY{p}{:}
-                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Error making the HTTP request }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{response}\PY{o}{.}\PY{n}{status\PYZus{}code}  \PY{p}{)}
-                \PY{k}{return} \PY{k+kc}{None}
+        \PY{k+kn}{from} \PY{n+nn}{bs4} \PY{k}{import} \PY{n}{BeautifulSoup}
+        \PY{n}{scrape\PYZus{}url} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{https://www.tripadvisor.com/Restaurant\PYZus{}Review\PYZhy{}g187147\PYZhy{}d1751525\PYZhy{}Reviews\PYZhy{}Cafe\PYZus{}Le\PYZus{}Dome\PYZhy{}Paris\PYZus{}Ile\PYZus{}de\PYZus{}France.html}\PY{l+s+s1}{\PYZsq{}}  
+        \PY{n}{response} \PY{o}{=} \PY{n}{requests}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{scrape\PYZus{}url}\PY{p}{)} 
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{response}\PY{o}{.}\PY{n}{status\PYZus{}code}\PY{p}{)}
         
-        \PY{k}{def} \PY{n+nf}{main}\PY{p}{(}\PY{p}{)}\PY{p}{:}
-            \PY{n}{url} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{https://api.github.com/orgs/ibm}\PY{l+s+s2}{\PYZdq{}}
-            \PY{n}{txt\PYZus{}response} \PY{o}{=} \PY{n}{GithubAPI}\PY{p}{(}\PY{n}{url}\PY{p}{)}
-            
-            \PY{k}{if} \PY{n}{txt\PYZus{}response}\PY{p}{:}
-                \PY{n+nb}{print}\PY{p}{(}\PY{n}{txt\PYZus{}response}\PY{p}{)}
-        
-        \PY{n}{main}\PY{p}{(}\PY{p}{)} 
+        \PY{k}{if} \PY{n}{response}\PY{o}{.}\PY{n}{status\PYZus{}code} \PY{o}{==} \PY{l+m+mi}{200}\PY{p}{:}
+            \PY{n}{soup} \PY{o}{=} \PY{n}{BeautifulSoup}\PY{p}{(}\PY{n}{response}\PY{o}{.}\PY{n}{text}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{html.parser}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{c+c1}{\PYZsh{} Soup}
+            \PY{n+nb}{print}\PY{p}{(}\PY{n}{soup}\PY{o}{.}\PY{n}{prettify}\PY{p}{)}
 \end{Verbatim}
 
 
-    \paragraph{Step 3: Parse the response}\label{step-3-parse-the-response}
+    \paragraph{Step 2: Inspect the element you want to
+scrape}\label{step-2-inspect-the-element-you-want-to-scrape}
 
-The \emph{json} module gives us functions to convert the JSON response
-to a python readable data structure.
-
-\emph{Write a program to get the number of OSS projects started by IBM}
+In this step we will inspect the HTML data of the website to understand
+the tags and attributes that matches the element. Let us inspect the
+HTML data of the URL and understand where (under which tag) the review
+data is located.
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}13}]:} \PY{k+kn}{import} \PY{n+nn}{requests}
-         \PY{k+kn}{import} \PY{n+nn}{json}
-         
-         \PY{k}{def} \PY{n+nf}{GithubAPI}\PY{p}{(}\PY{n}{url}\PY{p}{)}\PY{p}{:}
-             \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} Make a HTTP request for the given URL and send the response body}
-         \PY{l+s+sd}{    back to the calling function\PYZdq{}\PYZdq{}\PYZdq{}}
-             \PY{n}{response} \PY{o}{=} \PY{n}{requests}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{url}\PY{p}{)}
-             \PY{k}{if} \PY{n}{response}\PY{o}{.}\PY{n}{status\PYZus{}code} \PY{o}{==} \PY{l+m+mi}{200}\PY{p}{:}
-                 \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Response status \PYZhy{} OK }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-                 \PY{k}{return} \PY{n}{response}\PY{o}{.}\PY{n}{json}\PY{p}{(}\PY{p}{)}
-             \PY{k}{else}\PY{p}{:}
-                 \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Error making the HTTP request }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{response}\PY{o}{.}\PY{n}{status\PYZus{}code}  \PY{p}{)}
-                 \PY{k}{return} \PY{k+kc}{None}
-         
-         \PY{k}{def} \PY{n+nf}{main}\PY{p}{(}\PY{p}{)}\PY{p}{:}
-             \PY{n}{url} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{https://api.github.com/orgs/ibm}\PY{l+s+s2}{\PYZdq{}}
-             \PY{n}{txt\PYZus{}response} \PY{o}{=} \PY{n}{GithubAPI}\PY{p}{(}\PY{n}{url}\PY{p}{)}
-             
-             \PY{k}{if} \PY{n}{txt\PYZus{}response}\PY{p}{:}
-                 \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The number of public repos are : }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{txt\PYZus{}response}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{public\PYZus{}repos}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
-         
-         \PY{n}{main}\PY{p}{(}\PY{p}{)} 
+{\color{incolor}In [{\color{incolor} }]:} \PY{o}{\PYZlt{}}\PY{n}{div} \PY{n}{class}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{entry}\PY{l+s+s2}{\PYZdq{}}\PY{o}{\PYZgt{}}
+            \PY{o}{\PYZlt{}}\PY{n}{p} \PY{n}{class}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{partial\PYZus{}entry}\PY{l+s+s2}{\PYZdq{}}\PY{o}{\PYZgt{}}
+            \PY{n}{Popped} \PY{o+ow}{in} \PY{n}{on} \PY{n}{way} \PY{n}{to} \PY{n}{Eiffel} \PY{n}{Tower} \PY{k}{for} \PY{n}{lunch}\PY{p}{,} \PY{n}{big} \PY{n}{mistake}\PY{o}{.} 
+            \PY{n}{Pizza} \PY{n}{was} \PY{n}{disgusting} \PY{o+ow}{and} \PY{n}{service} \PY{n}{was} \PY{n}{poor}\PY{o}{.} 
+            \PY{n}{It}\PY{err}{’}\PY{n}{s} \PY{n}{a} \PY{n}{shame} \PY{n}{Trip} \PY{n}{Advisor} \PY{n}{don}\PY{err}{’}\PY{n}{t} \PY{n}{let} \PY{n}{you} \PY{n}{score} \PY{n}{venues} \PY{n}{zero}\PY{o}{.}\PY{o}{.}\PY{o}{.}\PY{o}{.}
+            \PY{o}{\PYZlt{}}\PY{n}{span} \PY{n}{class}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{taLnk ulBlueLinks}\PY{l+s+s2}{\PYZdq{}} \PY{n}{onclick}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{widgetEvCall(}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{handlers.clickExpand}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{,event,this);}\PY{l+s+s2}{\PYZdq{}}\PY{o}{\PYZgt{}}\PY{n}{More}
+            \PY{o}{\PYZlt{}}\PY{o}{/}\PY{n}{span}\PY{o}{\PYZgt{}}
+            \PY{o}{\PYZlt{}}\PY{o}{/}\PY{n}{p}\PY{o}{\PYZgt{}}
+        \PY{o}{\PYZlt{}}\PY{o}{/}\PY{n}{div}\PY{o}{\PYZgt{}}
 \end{Verbatim}
 
 
-    \begin{Verbatim}[commandchars=\\\{\}]
-Response status - OK 
-The number of public repos are :  851
+    \paragraph{Step 3: Searching the soup for the
+data}\label{step-3-searching-the-soup-for-the-data}
 
-    \end{Verbatim}
+Beautiful Soup defines a lot of methods for searching the parse tree
+(soup), the two most popular methods are: find() and find\_all().
 
-    \paragraph{Step 3: Follow the url information from the Web API to find
-what you
-need}\label{step-3-follow-the-url-information-from-the-web-api-to-find-what-you-need}
+The simplest filter is a tag. Pass a tag to a search method and
+Beautiful Soup will perform a match against that exact string.
 
-\emph{Let us collect the information regarding the different projects
-started by IBM }
+    \emph{Let us try and find all the \textless{} p \textgreater{}
+(paragraph) tags in the soup:}
 
     \begin{Verbatim}[commandchars=\\\{\}]
 {\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{import} \PY{n+nn}{requests}
-        \PY{k+kn}{import} \PY{n+nn}{json}
-                
-        \PY{k}{def} \PY{n+nf}{GithubAPI}\PY{p}{(}\PY{n}{url}\PY{p}{)}\PY{p}{:}
-            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} Make a HTTP request for the given URL and send the response body}
-        \PY{l+s+sd}{    back to the calling function\PYZdq{}\PYZdq{}\PYZdq{}}
-            \PY{n}{response} \PY{o}{=} \PY{n}{requests}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{url}\PY{p}{,} \PY{n}{auth}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ENTER USER ID}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ENTER PASSWORD}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
-            \PY{k}{if} \PY{n}{response}\PY{o}{.}\PY{n}{status\PYZus{}code} \PY{o}{==} \PY{l+m+mi}{200}\PY{p}{:}
-                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Response status \PYZhy{} OK }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-                \PY{k}{return} \PY{n}{response}\PY{o}{.}\PY{n}{json}\PY{p}{(}\PY{p}{)}
+        \PY{k+kn}{from} \PY{n+nn}{bs4} \PY{k}{import} \PY{n}{BeautifulSoup}
+        
+        \PY{k}{def} \PY{n+nf}{scrapecontent}\PY{p}{(}\PY{n}{url}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}This function parses the HTML page representing the url using the BeautifulSoup module}
+        \PY{l+s+sd}{    and returns the created python readable data structure (soup)\PYZdq{}\PYZdq{}\PYZdq{}}
+            \PY{n}{scrape\PYZus{}response} \PY{o}{=} \PY{n}{requests}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{url}\PY{p}{)} 
+            \PY{n+nb}{print}\PY{p}{(}\PY{n}{scrape\PYZus{}response}\PY{o}{.}\PY{n}{status\PYZus{}code}\PY{p}{)}
+        
+            \PY{k}{if} \PY{n}{scrape\PYZus{}response}\PY{o}{.}\PY{n}{status\PYZus{}code} \PY{o}{==} \PY{l+m+mi}{200}\PY{p}{:}
+                \PY{n}{soup} \PY{o}{=} \PY{n}{BeautifulSoup}\PY{p}{(}\PY{n}{scrape\PYZus{}response}\PY{o}{.}\PY{n}{text}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{html.parser}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+                \PY{k}{return} \PY{n}{soup}
             \PY{k}{else}\PY{p}{:}
-                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Error making the HTTP request }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{response}\PY{o}{.}\PY{n}{status\PYZus{}code}  \PY{p}{)}
+                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Error accessing url : }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{scrape\PYZus{}response}\PY{o}{.}\PY{n}{status\PYZus{}code}\PY{p}{)}
                 \PY{k}{return} \PY{k+kc}{None}
         
         \PY{k}{def} \PY{n+nf}{main}\PY{p}{(}\PY{p}{)}\PY{p}{:}
-            \PY{n}{url} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{https://api.github.com/orgs/ibm}\PY{l+s+s2}{\PYZdq{}}
-            \PY{n}{response\PYZus{}json} \PY{o}{=} \PY{n}{GithubAPI}\PY{p}{(}\PY{n}{url}\PY{p}{)}
-            
-            \PY{k}{if} \PY{n}{response\PYZus{}json}\PY{p}{:}
-                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The number of public repos are : }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{response\PYZus{}json}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{public\PYZus{}repos}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
-                \PY{n}{repo\PYZus{}url} \PY{o}{=} \PY{n}{response\PYZus{}json}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{repos\PYZus{}url}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
-                \PY{n}{repo\PYZus{}response} \PY{o}{=} \PY{n}{GithubAPI}\PY{p}{(}\PY{n}{repo\PYZus{}url}\PY{p}{)}
-                \PY{k}{for} \PY{n}{repo} \PY{o+ow}{in} \PY{n}{repo\PYZus{}response}\PY{p}{:}
-                    \PY{n+nb}{print}\PY{p}{(}\PY{p}{[}\PY{n}{repo}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}\PY{n}{repo}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{name}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{p}{)}
-                
-        \PY{n}{main}\PY{p}{(}\PY{p}{)} 
+            \PY{n}{scrape\PYZus{}url} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{https://www.tripadvisor.com/Restaurant\PYZus{}Review\PYZhy{}g187147\PYZhy{}d1751525\PYZhy{}Reviews\PYZhy{}Cafe\PYZus{}Le\PYZus{}Dome\PYZhy{}Paris\PYZus{}Ile\PYZus{}de\PYZus{}France.html}\PY{l+s+s1}{\PYZsq{}}  
+            \PY{n}{ret\PYZus{}soup} \PY{o}{=} \PY{n}{scrapecontent}\PY{p}{(}\PY{n}{scrape\PYZus{}url}\PY{p}{)}
+            \PY{k}{if} \PY{n}{ret\PYZus{}soup}\PY{p}{:}
+                \PY{k}{for} \PY{n}{review} \PY{o+ow}{in} \PY{n}{ret\PYZus{}soup}\PY{o}{.}\PY{n}{find\PYZus{}all}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{p}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{class\PYZus{}}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{partial\PYZus{}entry}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{:}        
+                    \PY{n+nb}{print}\PY{p}{(}\PY{n}{review}\PY{o}{.}\PY{n}{text}\PY{p}{)} \PY{c+c1}{\PYZsh{}We are interested only in the text data, since the reviews are stored as text}
+        \PY{n}{main}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
-    \paragraph{Step 4: Paginate to get data from other
-pages}\label{step-4-paginate-to-get-data-from-other-pages}
+    \paragraph{Step 4: Enable pagination}\label{step-4-enable-pagination}
 
-\emph{Traverse the pages if the data is spread across multiple pages}
+Automatically access subsequent pages
 
     \begin{Verbatim}[commandchars=\\\{\}]
 {\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{import} \PY{n+nn}{requests}
-        \PY{k+kn}{import} \PY{n+nn}{json}
-                
-        \PY{k}{def} \PY{n+nf}{GithubAPI}\PY{p}{(}\PY{n}{url}\PY{p}{)}\PY{p}{:}
-            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} Make a HTTP request for the given URL and send the response body}
-        \PY{l+s+sd}{    back to the calling function\PYZdq{}\PYZdq{}\PYZdq{}}
-            \PY{n}{response} \PY{o}{=} \PY{n}{requests}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{url}\PY{p}{,} \PY{n}{auth} \PY{o}{=} \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ENTER USER ID}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ENTER PASSWORD}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
-            \PY{k}{if} \PY{n}{response}\PY{o}{.}\PY{n}{status\PYZus{}code} \PY{o}{==} \PY{l+m+mi}{200}\PY{p}{:}
-                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Response status \PYZhy{} OK }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-                \PY{k}{return} \PY{n}{response}\PY{o}{.}\PY{n}{json}\PY{p}{(}\PY{p}{)}
+        \PY{k+kn}{from} \PY{n+nn}{bs4} \PY{k}{import} \PY{n}{BeautifulSoup}
+        
+        \PY{k}{def} \PY{n+nf}{scrapecontent}\PY{p}{(}\PY{n}{url}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}This function parses the HTML page representing the url using the BeautifulSoup module}
+        \PY{l+s+sd}{    and returns the created python readable data structure (soup)\PYZdq{}\PYZdq{}\PYZdq{}}
+            \PY{n}{scrape\PYZus{}response} \PY{o}{=} \PY{n}{requests}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{url}\PY{p}{)} 
+            \PY{n+nb}{print}\PY{p}{(}\PY{n}{scrape\PYZus{}response}\PY{o}{.}\PY{n}{status\PYZus{}code}\PY{p}{)}
+        
+            \PY{k}{if} \PY{n}{scrape\PYZus{}response}\PY{o}{.}\PY{n}{status\PYZus{}code} \PY{o}{==} \PY{l+m+mi}{200}\PY{p}{:}
+                \PY{n}{soup} \PY{o}{=} \PY{n}{BeautifulSoup}\PY{p}{(}\PY{n}{scrape\PYZus{}response}\PY{o}{.}\PY{n}{text}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{html.parser}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+                \PY{k}{return} \PY{n}{soup}
             \PY{k}{else}\PY{p}{:}
-                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Error making the HTTP request }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{response}\PY{o}{.}\PY{n}{status\PYZus{}code}  \PY{p}{)}
+                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Error accessing url : }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{scrape\PYZus{}response}\PY{o}{.}\PY{n}{status\PYZus{}code}\PY{p}{)}
                 \PY{k}{return} \PY{k+kc}{None}
         
         \PY{k}{def} \PY{n+nf}{main}\PY{p}{(}\PY{p}{)}\PY{p}{:}
-            \PY{n}{url} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{https://api.github.com/orgs/ibm}\PY{l+s+s2}{\PYZdq{}}
-            \PY{n}{response\PYZus{}json} \PY{o}{=} \PY{n}{GithubAPI}\PY{p}{(}\PY{n}{url}\PY{p}{)}
-            
-            \PY{k}{if} \PY{n}{response\PYZus{}json}\PY{p}{:}
-                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The number of public repos are : }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{response\PYZus{}json}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{public\PYZus{}repos}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
-                \PY{n}{repo\PYZus{}url} \PY{o}{=} \PY{n}{response\PYZus{}json}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{repos\PYZus{}url}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
-                \PY{n}{total\PYZus{}no} \PY{o}{=}  \PY{n}{response\PYZus{}json}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{public\PYZus{}repos}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
-                \PY{n}{per\PYZus{}page} \PY{o}{=} \PY{l+m+mi}{100}
-                \PY{n}{page\PYZus{}count} \PY{o}{=} \PY{l+m+mi}{1}
-                \PY{k}{while} \PY{n}{page\PYZus{}count} \PY{o}{\PYZlt{}} \PY{n}{total\PYZus{}no}\PY{o}{/}\PY{l+m+mi}{100}\PY{p}{:}
-                    \PY{c+c1}{\PYZsh{}Display 100 repos per page and traverse the pages untill we get the last page}
-                    \PY{n}{page\PYZus{}url} \PY{o}{=} \PY{n}{repo\PYZus{}url}\PY{o}{+}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{?per\PYZus{}page=100\PYZam{}page\PYZus{}no=}\PY{l+s+s2}{\PYZdq{}}\PY{o}{+}\PY{n+nb}{str}\PY{p}{(}\PY{n}{page\PYZus{}count}\PY{p}{)}
-                    \PY{n+nb}{print}\PY{p}{(}\PY{n}{page\PYZus{}url}\PY{p}{)}
-                    \PY{n}{repo\PYZus{}response} \PY{o}{=} \PY{n}{GithubAPI}\PY{p}{(}\PY{n}{page\PYZus{}url}\PY{p}{)}
-                    \PY{c+c1}{\PYZsh{} Increment page number}
-                    \PY{n}{page\PYZus{}count} \PY{o}{=} \PY{n}{page\PYZus{}count}\PY{o}{+}\PY{l+m+mi}{1}
-                    \PY{k}{for} \PY{n}{repo} \PY{o+ow}{in} \PY{n}{repo\PYZus{}response}\PY{p}{:}
-                        \PY{n+nb}{print}\PY{p}{(}\PY{p}{[}\PY{n}{repo}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}\PY{n}{repo}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{name}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{p}{)}
-                        
-        \PY{n}{main}\PY{p}{(}\PY{p}{)} 
+            \PY{n}{page\PYZus{}no} \PY{o}{=} \PY{l+m+mi}{0}
+        
+            \PY{k}{while}\PY{p}{(}\PY{n}{page\PYZus{}no} \PY{o}{\PYZlt{}} \PY{l+m+mi}{60}\PY{p}{)}\PY{p}{:}
+                \PY{n}{scrape\PYZus{}url} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{https://www.tripadvisor.com/Restaurant\PYZus{}Review\PYZhy{}g187147\PYZhy{}d1751525\PYZhy{}Reviews\PYZhy{}or}\PY{l+s+s1}{\PYZsq{}}\PY{o}{+}\PY{n+nb}{str}\PY{p}{(}\PY{n}{page\PYZus{}no}\PY{p}{)}\PY{o}{+}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}Cafe\PYZus{}Le\PYZus{}Dome\PYZhy{}Paris\PYZus{}Ile\PYZus{}de\PYZus{}France.html}\PY{l+s+s1}{\PYZsq{}}  
+                \PY{n}{ret\PYZus{}soup} \PY{o}{=} \PY{n}{scrapecontent}\PY{p}{(}\PY{n}{scrape\PYZus{}url}\PY{p}{)}
+                \PY{k}{if} \PY{n}{ret\PYZus{}soup}\PY{p}{:}
+                    \PY{k}{for} \PY{n}{review} \PY{o+ow}{in} \PY{n}{ret\PYZus{}soup}\PY{o}{.}\PY{n}{find\PYZus{}all}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{p}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{class\PYZus{}}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{partial\PYZus{}entry}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{:}        
+                        \PY{n+nb}{print}\PY{p}{(}\PY{n}{review}\PY{o}{.}\PY{n}{text}\PY{p}{)} \PY{c+c1}{\PYZsh{}We are interested only in the text data, since the reviews are stored as text}
+                \PY{n}{page\PYZus{}no} \PY{o}{=} \PY{n}{page\PYZus{}no} \PY{o}{+} \PY{l+m+mi}{10}
+                    
+        \PY{n}{main}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
-    \subsection{Write a CSV}\label{write-a-csv}
-
-Lets try to write the repos into a CSV file.
-
-    \emph{Write a code to append data row wise to a csv file}
+    \emph{Using yesterdays sentiment analysis code and the corpus of
+sentiment found in the word\_sentiment.csv file, calculate the sentiment
+of the reviews.}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{import} \PY{n+nn}{csv}
-        \PY{n}{WRITE\PYZus{}CSV} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C:/Users/kmpoo/Dropbox/HEC/Teaching/Python for PhD Mar 2018/python4phd/Session 2/ipython/Repo\PYZus{}csv.csv}\PY{l+s+s2}{\PYZdq{}}
-        \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{WRITE\PYZus{}CSV}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{at}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{encoding} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{utf\PYZhy{}8}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{newline}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{csv\PYZus{}obj}\PY{p}{:}
-            \PY{n}{write} \PY{o}{=} \PY{n}{csv}\PY{o}{.}\PY{n}{writer}\PY{p}{(}\PY{n}{csv\PYZus{}obj}\PY{p}{)} \PY{c+c1}{\PYZsh{} Note it is csv.writer not reader}
-            
-            \PY{n}{write}\PY{o}{.}\PY{n}{writerow}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{REPO ID}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{REPO NAME}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{}Enter your code here}
 \end{Verbatim}
 
 
-    \emph{What do you think will happen if we use 'wt' as mode instead of
-'at' ?}
+    \paragraph{Expanding this further}\label{expanding-this-further}
 
-    \emph{Write a program so that you save the IBM repositories into the CSV
-file. So that each row is a new repository and column 1 is the ID and
-column 2 is the name}
+To add additional details we can inspect the tags further and add the
+reviewer rating and reviwer details.
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{}Enter code here}
+{\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{import} \PY{n+nn}{requests}
+        \PY{k+kn}{from} \PY{n+nn}{bs4} \PY{k}{import} \PY{n}{BeautifulSoup}
+        \PY{k}{def} \PY{n+nf}{scrapecontent}\PY{p}{(}\PY{n}{url}\PY{p}{)}\PY{p}{:}
+            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}This function parses the HTML page representing the url using the BeautifulSoup module}
+        \PY{l+s+sd}{    and returns the created python readable data structure (soup)\PYZdq{}\PYZdq{}\PYZdq{}}
+            \PY{n}{scrape\PYZus{}response} \PY{o}{=} \PY{n}{requests}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{url}\PY{p}{)} 
+            \PY{n+nb}{print}\PY{p}{(}\PY{n}{scrape\PYZus{}response}\PY{o}{.}\PY{n}{status\PYZus{}code}\PY{p}{)}
         
-        \PY{k+kn}{import} \PY{n+nn}{requests}
-        \PY{k+kn}{import} \PY{n+nn}{json}
-        \PY{k+kn}{import} \PY{n+nn}{csv}
-        
-        \PY{n}{WRITE\PYZus{}CSV} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C:/Users/kmpoo/Dropbox/HEC/Teaching/Python for PhD Mar 2018/python4phd/Session 2/ipython/Repo\PYZus{}csv.csv}\PY{l+s+s2}{\PYZdq{}}
-        
-        \PY{k}{def} \PY{n+nf}{appendcsv}\PY{p}{(}\PY{n}{data\PYZus{}list}\PY{p}{)}\PY{p}{:}
-            \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{WRITE\PYZus{}CSV}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{at}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{encoding} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{utf\PYZhy{}8}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{newline}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{csv\PYZus{}obj}\PY{p}{:}
-                \PY{n}{write} \PY{o}{=} \PY{n}{csv}\PY{o}{.}\PY{n}{writer}\PY{p}{(}\PY{n}{csv\PYZus{}obj}\PY{p}{)} \PY{c+c1}{\PYZsh{} Note it is csv.writer not reader }
-                \PY{n}{write}\PY{o}{.}\PY{n}{writerow}\PY{p}{(}\PY{n}{data\PYZus{}list}\PY{p}{)}
-                
-        \PY{k}{def} \PY{n+nf}{GithubAPI}\PY{p}{(}\PY{n}{url}\PY{p}{)}\PY{p}{:}
-            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{} Make a HTTP request for the given URL and send the response body}
-        \PY{l+s+sd}{    back to the calling function\PYZdq{}\PYZdq{}\PYZdq{}}
-            \PY{n}{response} \PY{o}{=} \PY{n}{requests}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{url}\PY{p}{,} \PY{n}{auth} \PY{o}{=} \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ENTER USER ID}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ENTER PASSWORD}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
-            \PY{k}{if} \PY{n}{response}\PY{o}{.}\PY{n}{status\PYZus{}code} \PY{o}{==} \PY{l+m+mi}{200}\PY{p}{:}
-                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Response status \PYZhy{} OK }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-                \PY{k}{return} \PY{n}{response}\PY{o}{.}\PY{n}{json}\PY{p}{(}\PY{p}{)}
+            \PY{k}{if} \PY{n}{scrape\PYZus{}response}\PY{o}{.}\PY{n}{status\PYZus{}code} \PY{o}{==} \PY{l+m+mi}{200}\PY{p}{:}
+                \PY{n}{soup} \PY{o}{=} \PY{n}{BeautifulSoup}\PY{p}{(}\PY{n}{scrape\PYZus{}response}\PY{o}{.}\PY{n}{text}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{html.parser}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+                \PY{k}{return} \PY{n}{soup}
             \PY{k}{else}\PY{p}{:}
-                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Error making the HTTP request }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{response}\PY{o}{.}\PY{n}{status\PYZus{}code}  \PY{p}{)}
+                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Error accessing url : }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{scrape\PYZus{}response}\PY{o}{.}\PY{n}{status\PYZus{}code}\PY{p}{)}
                 \PY{k}{return} \PY{k+kc}{None}
         
         \PY{k}{def} \PY{n+nf}{main}\PY{p}{(}\PY{p}{)}\PY{p}{:}
-            \PY{n}{url} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{https://api.github.com/orgs/ibm}\PY{l+s+s2}{\PYZdq{}}
-            \PY{n}{response\PYZus{}json} \PY{o}{=} \PY{n}{GithubAPI}\PY{p}{(}\PY{n}{url}\PY{p}{)}
-            
-            \PY{k}{if} \PY{n}{response\PYZus{}json}\PY{p}{:}
-                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{The number of public repos are : }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{response\PYZus{}json}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{public\PYZus{}repos}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
-                \PY{n}{repo\PYZus{}url} \PY{o}{=} \PY{n}{response\PYZus{}json}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{repos\PYZus{}url}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
-                \PY{n}{total\PYZus{}no} \PY{o}{=}  \PY{n}{response\PYZus{}json}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{public\PYZus{}repos}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
-                \PY{n}{per\PYZus{}page} \PY{o}{=} \PY{l+m+mi}{100}
-                \PY{n}{page\PYZus{}count} \PY{o}{=} \PY{l+m+mi}{1}
-                \PY{k}{while} \PY{n}{page\PYZus{}count} \PY{o}{\PYZlt{}} \PY{n}{total\PYZus{}no}\PY{o}{/}\PY{l+m+mi}{100}\PY{p}{:}
-                    \PY{c+c1}{\PYZsh{}Display 100 repos per page and traverse the pages untill we get the last page}
-                    \PY{n}{page\PYZus{}url} \PY{o}{=} \PY{n}{repo\PYZus{}url}\PY{o}{+}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{?per\PYZus{}page=100\PYZam{}page\PYZus{}no=}\PY{l+s+s2}{\PYZdq{}}\PY{o}{+}\PY{n+nb}{str}\PY{p}{(}\PY{n}{page\PYZus{}count}\PY{p}{)}
-                    \PY{n+nb}{print}\PY{p}{(}\PY{n}{page\PYZus{}url}\PY{p}{)}
-                    \PY{n}{repo\PYZus{}response} \PY{o}{=} \PY{n}{GithubAPI}\PY{p}{(}\PY{n}{page\PYZus{}url}\PY{p}{)}
-                    \PY{c+c1}{\PYZsh{} Increment page number}
-                    \PY{n}{page\PYZus{}count} \PY{o}{=} \PY{n}{page\PYZus{}count}\PY{o}{+}\PY{l+m+mi}{1}
-                    \PY{k}{for} \PY{n}{repo} \PY{o+ow}{in} \PY{n}{repo\PYZus{}response}\PY{p}{:}
-                        \PY{n+nb}{print}\PY{p}{(}\PY{p}{[}\PY{n}{repo}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}\PY{n}{repo}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{name}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{p}{)}
-                        \PY{n}{appendcsv}\PY{p}{(}\PY{p}{[}\PY{n}{repo}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}\PY{n}{repo}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{name}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{p}{)}
-                        
-                        
-        \PY{n}{main}\PY{p}{(}\PY{p}{)} 
+            \PY{n}{scrape\PYZus{}url} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{https://www.tripadvisor.com/Restaurant\PYZus{}Review\PYZhy{}g187147\PYZhy{}d1751525\PYZhy{}Reviews\PYZhy{}Cafe\PYZus{}Le\PYZus{}Dome\PYZhy{}Paris\PYZus{}Ile\PYZus{}de\PYZus{}France.html}\PY{l+s+s1}{\PYZsq{}}  
+            \PY{n}{ret\PYZus{}soup} \PY{o}{=} \PY{n}{scrapecontent}\PY{p}{(}\PY{n}{scrape\PYZus{}url}\PY{p}{)}
+            \PY{k}{if} \PY{n}{ret\PYZus{}soup}\PY{p}{:}
+                \PY{k}{for} \PY{n}{rev\PYZus{}data} \PY{o+ow}{in} \PY{n}{ret\PYZus{}soup}\PY{o}{.}\PY{n}{find\PYZus{}all}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{div}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{class\PYZus{}}\PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{review\PYZhy{}container}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{:}
+                    \PY{n}{date} \PY{o}{=} \PY{n}{rev\PYZus{}data}\PY{o}{.}\PY{n}{find}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{span}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{class\PYZus{}} \PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ratingDate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{c+c1}{\PYZsh{} Get the date if the review}
+                    \PY{n+nb}{print}\PY{p}{(}\PY{n}{date}\PY{o}{.}\PY{n}{text}\PY{p}{)}
+                    \PY{n}{review} \PY{o}{=} \PY{n}{rev\PYZus{}data}\PY{o}{.}\PY{n}{find}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{p}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{c+c1}{\PYZsh{} Get the review text}
+                    \PY{n+nb}{print}\PY{p}{(}\PY{n}{review}\PY{o}{.}\PY{n}{text}\PY{p}{)}
+                    \PY{n}{rating} \PY{o}{=} \PY{n}{rev\PYZus{}data}\PY{o}{.}\PY{n}{find}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{span}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{class\PYZus{}}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ui\PYZus{}bubble\PYZus{}rating}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{c+c1}{\PYZsh{}Get the rating of the review}
+                    \PY{n+nb}{print}\PY{p}{(}\PY{n+nb}{int}\PY{p}{(}\PY{n}{rating}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{class}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{7}\PY{p}{:}\PY{p}{]}\PY{p}{)}\PY{o}{/}\PY{l+m+mi}{10}\PY{p}{)}
+        \PY{n}{main}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
+
+    \emph{Using the review data and the ratings available is there any way
+we can improve the corpus of sentiments "word\_sentiment.csv" file?}
 
 
     % Add a bibliography block to the postdoc
