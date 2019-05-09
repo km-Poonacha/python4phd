@@ -141,7 +141,7 @@
     \def\gt{>}
     \def\lt{<}
     % Document parameters
-    \title{Lesson 6 - Supervised learning}
+    \title{Lesson 7- Sklearn and Randomforest}
     
     
     
@@ -280,310 +280,152 @@
     
 
     
-    \section{Lesson 6 - Supervised Learning* \#\# 1. Machine learning
-(ML)}\label{lesson-6---supervised-learning-1.-machine-learning-ml}
+    \section{Ensemble methods}\label{ensemble-methods}
 
-The sentiment analysis program we wrote earlier (in session 1) adopts a
-non-machine learning algorithm. That is, it tries to define what good
-and bad sentiments are and assumes all the necessary words of good and
-bad sentiments exist in the word\_sentiment.csv file.
+The goal of ensemble methods is to combine the predictions of several
+base estimators built with a given learning algorithm in order to
+improve generalizability / robustness over a single estimator.
 
-Machine Learning (ML) is a class of algorithms, which are data-driven,
-i.e. unlike "normal" algorithms, it is the data that "tells" what the
-"good answer" is. A machine learning algorithm would not have such coded
-definition of what a good and bad sentiment is, but would
-"learn-by-examples". That is, you will show several words which have
-been labeled as good sentiment and bad sentiment and a good ML algorithm
-will eventually learn and be able to predict whether or not an unseen
-word has a good or bad sentiment. This particular example of sentiment
-analysis is "supervised", which means that your example words must be
-labeled, or explicitly say which words are good and which are bad.
-
-On the other hand, in the case of unsupervised learning, the word
-examples are not labeled. Of course, in such a case the algorithm itself
-cannot "invent" what a good sentiment is, but it can try to cluster the
-data into different groups, e.g. it can figure out that words that are
-close to certain other words are different from words closer to some
-other words (eg. words close to the word "mother" are most likely good).
-There are "intermediate" forms of supervision, i.e. semi-supervised and
-active learning. Technically, these are supervised methods in which
-there is some "smart" way to avoid a large number of labeled examples.
+Two families of ensemble methods are usually distinguished:
 
 \begin{itemize}
-\tightlist
 \item
-  In active learning, the algorithm itself decides which thing you
-  should label (e.g. it can be pretty sure about a sentence that has the
-  word fantastic, but it might ask you to confirm if the sentence may
-  have a negative like ``not'').
+  Averaging methods: Here the driving principle is to build several
+  estimators independently and then to average their predictions. On
+  average, the combined estimator is usually better than any of the
+  single base estimator because its variance is reduced. Example: Random
+  forest
 \item
-  In semi-supervised learning, there are two different algorithms, which
-  start with the labeled examples, and then "tell" each other the way
-  they think about some large number of unlabeled data. From this
-  "discussion" they learn.
+  Boosting methods: Here base estimators are built sequentially and one
+  tries to reduce the bias of the combined estimator. The motivation is
+  to combine several weak models to produce a powerful ensemble.
+  Example: Adaboost
 \end{itemize}
 
-\paragraph{Figure : Supervised learning
-approach}\label{figure-supervised-learning-approach}
+\subsubsection{Random Forest classifier}\label{random-forest-classifier}
 
-\begin{verbatim}
-<img src="ML_supervised.gif"  width="500" title="Supervised learning">
-\end{verbatim}
+In random forests, each tree in the ensemble is built from a sample
+drawn with replacement from the training set. In addition, when
+splitting a node during the construction of the tree, the split that is
+chosen is no longer the best split among all features. Instead, the
+split that is picked is the best split among a random subset of the
+features. As a result of this randomness, the bias of the forest usually
+slightly increases (with respect to the bias of a single non-random
+tree) but, due to averaging, its variance also decreases, usually more
+than compensating for the increase in bias, hence yielding an overall
+better model.
 
-*REF: http://www.nltk.org/book/ch06.html
+    \subsubsection{Sklearn}\label{sklearn}
 
-    \subsubsection{1.1 Feature extraction}\label{feature-extraction}
+High level module built on NumPy, SciPy, and matplotlib. Scikit-learn is
+a Python module integrating a wide range of state-of-the-art machine
+learning algorithms for medium-scale supervised and unsupervised
+problems. This package focuses on bringing machine learning to
+non-specialists using a general-purpose high-level language. Emphasis is
+put on ease of use, performance, documentation, and API consistency.
 
-Define what features of a word that you want to use in order to classify
-the data set. We will select two features the first and the last letter
-of the word.
+    \paragraph{Step 1: Import data}\label{step-1-import-data}
+
+\emph{Create dataframes from the csv data}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor} }]:} \PY{k}{def} \PY{n+nf}{feature\PYZus{}extractor}\PY{p}{(}\PY{n}{word}\PY{p}{)}\PY{p}{:}
-            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Extract the features for a given word and return a dictonary of the features\PYZdq{}\PYZdq{}\PYZdq{}}
-            \PY{n}{start\PYZus{}letter} \PY{o}{=} \PY{n}{word}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
-            \PY{n}{last\PYZus{}letter} \PY{o}{=} \PY{n}{word}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
-            \PY{k}{return} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}letter}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{start\PYZus{}letter}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{last\PYZus{}letter}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{last\PYZus{}letter}\PY{p}{\PYZcb{}}
+{\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+        \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
         
-        \PY{k}{def} \PY{n+nf}{main}\PY{p}{(}\PY{p}{)}\PY{p}{:}
-            \PY{n+nb}{print}\PY{p}{(}\PY{n}{feature\PYZus{}extractor}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{poonacha}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
-                  
-        \PY{n}{main}\PY{p}{(}\PY{p}{)}
+        
+        \PY{n}{TRAIN\PYZus{}CSV} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C:}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s2}{Users}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{kmpoo}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Dropbox}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{HEC}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Teaching}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Python for PhD May 2019}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{python4phd}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Session 3}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Sent}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{sentence\PYZus{}review.csv}\PY{l+s+s2}{\PYZdq{}}
+        \PY{n}{dataframe} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{n}{TRAIN\PYZus{}CSV}\PY{p}{,} \PY{n}{sep}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{,}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{error\PYZus{}bad\PYZus{}lines}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,}\PY{n}{header}\PY{o}{=} \PY{l+m+mi}{0}\PY{p}{,} \PY{n}{low\PYZus{}memory}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{encoding} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Latin1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{dataframe}\PY{p}{)}
 \end{Verbatim}
 
 
-    \subsubsection{1.2 Training the ML
-algorithm}\label{training-the-ml-algorithm}
+    \paragraph{Step 2: Manipulate the dataframe and add new
+features}\label{step-2-manipulate-the-dataframe-and-add-new-features}
 
-NLTK module is built for working with language data. NLTK supports
-classification, tokenization, stemming, tagging, parsing, and semantic
-reasoning functionalities. We will use the NLTK module and employ the
-naive Bayes method to classify words as being either positive or
-negative sentiment. You can also use other modules specifically meant
-for ML eg. sklearn module.
-
-\paragraph{Step 1: Create the feature
-set}\label{step-1-create-the-feature-set}
-
-We will use the corpus of sentiments from the word\_sentiment.csv file
-to create a feature dataset which we will use to train and test the ML
-model.
+\emph{Create a new feature "length of the sentence"}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{import} \PY{n+nn}{csv}
-        
-        \PY{k}{def} \PY{n+nf}{feature\PYZus{}extractor}\PY{p}{(}\PY{n}{word}\PY{p}{)}\PY{p}{:}
-            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Extract the features for a given word and return a dictonary of the features\PYZdq{}\PYZdq{}\PYZdq{}}
-            \PY{n}{start\PYZus{}letter} \PY{o}{=} \PY{n}{word}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
-            \PY{n}{last\PYZus{}letter} \PY{o}{=} \PY{n}{word}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
-            \PY{k}{return} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}letter}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{start\PYZus{}letter}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{last\PYZus{}letter}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{last\PYZus{}letter}\PY{p}{\PYZcb{}}
-        
-        \PY{k}{def} \PY{n+nf}{ML\PYZus{}train}\PY{p}{(}\PY{n}{sentiment\PYZus{}corpus}\PY{p}{)}\PY{p}{:}
-            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Create feature set from the corpus given to to it.\PYZdq{}\PYZdq{}\PYZdq{}}
-            \PY{n}{feature\PYZus{}set} \PY{o}{=} \PY{p}{[}\PY{p}{]}
-            \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{sentiment\PYZus{}corpus}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{encoding} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{utf\PYZhy{}8}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{sentobj}\PY{p}{:}
-                \PY{n}{sentiment\PYZus{}handle} \PY{o}{=} \PY{n}{csv}\PY{o}{.}\PY{n}{reader}\PY{p}{(}\PY{n}{sentobj}\PY{p}{)}
-         
-                \PY{k}{for} \PY{n}{sentiment} \PY{o+ow}{in} \PY{n}{sentiment\PYZus{}handle}\PY{p}{:}
-                    \PY{n}{new\PYZus{}row} \PY{o}{=} \PY{p}{[}\PY{p}{]}
-                    \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{feature\PYZus{}extractor}\PY{p}{(}\PY{n}{sentiment}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)} \PY{c+c1}{\PYZsh{}get the dictionary of features for a word}
-                    \PY{k}{if} \PY{n+nb}{int}\PY{p}{(}\PY{n}{sentiment}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+m+mi}{0}\PY{p}{:} \PY{c+c1}{\PYZsh{} Club the sentiment values (\PYZhy{}5 to + 5) to just positive or negative}
-                        \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{positive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-                    \PY{k}{else}\PY{p}{:}
-                        \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{negative}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-                    \PY{n}{feature\PYZus{}set}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{new\PYZus{}row}\PY{p}{)}
-                \PY{n+nb}{print}\PY{p}{(}\PY{n}{feature\PYZus{}set}\PY{p}{)}
-        
-        \PY{k}{def} \PY{n+nf}{main}\PY{p}{(}\PY{p}{)}\PY{p}{:}
-            \PY{n}{sentiment\PYZus{}csv} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C:/Users/kmpoo/Dropbox/HEC/Teaching/Python for PhD Mar 2018/python4phd/Session 3/Sent/word\PYZus{}sentiment.csv}\PY{l+s+s2}{\PYZdq{}}
-            \PY{n}{ML\PYZus{}train}\PY{p}{(}\PY{n}{sentiment\PYZus{}csv}\PY{p}{)}
-                  
-        \PY{n}{main}\PY{p}{(}\PY{p}{)}
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{dataframe} \PY{o}{=} \PY{n}{dataframe}\PY{o}{.}\PY{n}{assign}\PY{p}{(}\PY{n}{nWords} \PY{o}{=} \PY{k}{lambda} \PY{n}{x} \PY{p}{:} \PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{review\PYZus{}text}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{len}\PY{p}{(}\PY{p}{)} \PY{p}{)}
+        \PY{n}{dataframe}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bi\PYZus{}senti}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{positive}\PY{l+s+s2}{\PYZdq{}} \PY{k}{if} \PY{n}{x} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+m+mi}{4} \PY{k}{else} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{negative}\PY{l+s+s2}{\PYZdq{}} \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n}{dataframe}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sentiment}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{dataframe}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{dataframe}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bi\PYZus{}senti}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{p}{)}
 \end{Verbatim}
 
 
-    \paragraph{Step 2: Split the feature set into training and testing
-sets}\label{step-2-split-the-feature-set-into-training-and-testing-sets}
-
-We will split the feature data set into training and test data sets. The
-training set is used to train our ML model and then the testing set can
-be used to check how good the model is. It is normal to use 20\% of the
-data set for testing purposes. In our case we will retain 1500 words for
-training and the rest for testing.
+    \paragraph{Step 3: Split into train and test
+samples}\label{step-3-split-into-train-and-test-samples}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{import} \PY{n+nn}{csv}
-        \PY{k+kn}{import} \PY{n+nn}{random}
+{\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{utils} \PY{k}{import} \PY{n}{shuffle} \PY{c+c1}{\PYZsh{}To shuffle the dataframe}
+        \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
         
-        \PY{k}{def} \PY{n+nf}{feature\PYZus{}extractor}\PY{p}{(}\PY{n}{word}\PY{p}{)}\PY{p}{:}
-            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Extract the features for a given word and return a dictonary of the features\PYZdq{}\PYZdq{}\PYZdq{}}
-            \PY{n}{start\PYZus{}letter} \PY{o}{=} \PY{n}{word}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
-            \PY{n}{last\PYZus{}letter} \PY{o}{=} \PY{n}{word}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
-            \PY{k}{return} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}letter}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{start\PYZus{}letter}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{last\PYZus{}letter}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{last\PYZus{}letter}\PY{p}{\PYZcb{}}
-        
-        \PY{k}{def} \PY{n+nf}{ML\PYZus{}train}\PY{p}{(}\PY{n}{sentiment\PYZus{}corpus}\PY{p}{)}\PY{p}{:}
-            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Create feature set from the corpus given to to it. Split the  feature set into training and testing sets\PYZdq{}\PYZdq{}\PYZdq{}}
-            \PY{n}{feature\PYZus{}set} \PY{o}{=} \PY{p}{[}\PY{p}{]}
-            \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{sentiment\PYZus{}corpus}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{encoding} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{utf\PYZhy{}8}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{sentobj}\PY{p}{:}
-                \PY{n}{sentiment\PYZus{}handle} \PY{o}{=} \PY{n}{csv}\PY{o}{.}\PY{n}{reader}\PY{p}{(}\PY{n}{sentobj}\PY{p}{)}
-         
-                \PY{k}{for} \PY{n}{sentiment} \PY{o+ow}{in} \PY{n}{sentiment\PYZus{}handle}\PY{p}{:}
-                    \PY{n}{new\PYZus{}row} \PY{o}{=} \PY{p}{[}\PY{p}{]}
-                    \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{feature\PYZus{}extractor}\PY{p}{(}\PY{n}{sentiment}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)} \PY{c+c1}{\PYZsh{}get the dictionary of features for a word}
-                    \PY{k}{if} \PY{n+nb}{int}\PY{p}{(}\PY{n}{sentiment}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+m+mi}{0}\PY{p}{:} \PY{c+c1}{\PYZsh{} Club the sentiment values (\PYZhy{}5 to + 5) to just positive or negative}
-                        \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{positive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-                    \PY{k}{else}\PY{p}{:}
-                        \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{negative}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-                    \PY{n}{feature\PYZus{}set}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{new\PYZus{}row}\PY{p}{)}
-                
-                \PY{n}{random}\PY{o}{.}\PY{n}{shuffle}\PY{p}{(}\PY{n}{feature\PYZus{}set}\PY{p}{)}
-                \PY{c+c1}{\PYZsh{} We need to shuffle the features since the word\PYZus{}sentiment.csv had words arranged in alphabetical order}
-                \PY{n}{train\PYZus{}set} \PY{o}{=} \PY{n}{feature\PYZus{}set}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{1500}\PY{p}{]} \PY{c+c1}{\PYZsh{}the first 1500 words becomes our training set}
-                \PY{n}{test\PYZus{}set} \PY{o}{=} \PY{n}{feature\PYZus{}set}\PY{p}{[}\PY{l+m+mi}{1500}\PY{p}{:}\PY{p}{]}
-                \PY{n+nb}{print}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{test\PYZus{}set}\PY{p}{)}\PY{p}{)}
-        
-        \PY{k}{def} \PY{n+nf}{main}\PY{p}{(}\PY{p}{)}\PY{p}{:}
-            \PY{n}{sentiment\PYZus{}csv} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C:/Users/kmpoo/Dropbox/HEC/Teaching/Python for PhD Mar 2018/python4phd/Session 3/Sent/word\PYZus{}sentiment.csv}\PY{l+s+s2}{\PYZdq{}}
-            \PY{n}{ML\PYZus{}train}\PY{p}{(}\PY{n}{sentiment\PYZus{}csv}\PY{p}{)}
-                  
-        \PY{n}{main}\PY{p}{(}\PY{p}{)}
+        \PY{n}{dataframe} \PY{o}{=} \PY{n}{shuffle}\PY{p}{(}\PY{n}{dataframe}\PY{p}{)}
+        \PY{n}{df\PYZus{}train}\PY{p}{,} \PY{n}{df\PYZus{}test} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{dataframe}\PY{p}{,} \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{l+m+mf}{0.2}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{size of trainig data }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{)}\PY{p}{)}
 \end{Verbatim}
 
 
-    \paragraph{Step 3: Use ML method (naive Bayes) to create the classifier
-model}\label{step-3-use-ml-method-naive-bayes-to-create-the-classifier-model}
+    \paragraph{Step 4: Tokenization and veectorize the
+sentence}\label{step-4-tokenization-and-veectorize-the-sentence}
 
-The NLTK module gives us several ML methods to create a classifier model
-using our training set and based on our selected features.
+Text data requires special preparation before you can start using it for
+predictive modeling.
+
+The text must be parsed to remove words, called tokenization. Then the
+words need to be encoded as integers or floating point values for use as
+input to a machine learning algorithm, called feature extraction (or
+vectorization). \#\#\#\#\# Convert sentences to TF-IDF vectors tf-idf (
+term frequency--inverse document frequency), is a numerical statistic
+that is intended to reflect how important a word is to a document in a
+collection or corpus. It is often used as a weighting factor in searches
+of information retrieval, text mining, and user modeling. The tf--idf
+value increases proportionally to the number of times a word appears in
+the document and is offset by the number of documents in the corpus that
+contain the word, which helps to adjust for the fact that some words
+appear more frequently in general.
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{import} \PY{n+nn}{csv}
-        \PY{k+kn}{import} \PY{n+nn}{random}
-        \PY{k+kn}{import} \PY{n+nn}{nltk}
+{\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{feature\PYZus{}extraction}\PY{n+nn}{.}\PY{n+nn}{text} \PY{k}{import} \PY{n}{TfidfVectorizer}
         
-        \PY{k}{def} \PY{n+nf}{feature\PYZus{}extractor}\PY{p}{(}\PY{n}{word}\PY{p}{)}\PY{p}{:}
-            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Extract the features for a given word and return a dictonary of the features\PYZdq{}\PYZdq{}\PYZdq{}}
-            \PY{n}{start\PYZus{}letter} \PY{o}{=} \PY{n}{word}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
-            \PY{n}{last\PYZus{}letter} \PY{o}{=} \PY{n}{word}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
-            \PY{k}{return} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}letter}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{start\PYZus{}letter}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{last\PYZus{}letter}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{last\PYZus{}letter}\PY{p}{\PYZcb{}}
         
-        \PY{k}{def} \PY{n+nf}{ML\PYZus{}train}\PY{p}{(}\PY{n}{sentiment\PYZus{}corpus}\PY{p}{)}\PY{p}{:}
-            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Create feature set from the corpus given to to it. Split the  feature set into training and testing sets.}
-        \PY{l+s+sd}{    Train the classifier using the naive Bayes model and return the classifier. \PYZdq{}\PYZdq{}\PYZdq{}}
-            \PY{n}{feature\PYZus{}set} \PY{o}{=} \PY{p}{[}\PY{p}{]}
-            \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{sentiment\PYZus{}corpus}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{encoding} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{utf\PYZhy{}8}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{sentobj}\PY{p}{:}
-                \PY{n}{sentiment\PYZus{}handle} \PY{o}{=} \PY{n}{csv}\PY{o}{.}\PY{n}{reader}\PY{p}{(}\PY{n}{sentobj}\PY{p}{)}
-         
-                \PY{k}{for} \PY{n}{sentiment} \PY{o+ow}{in} \PY{n}{sentiment\PYZus{}handle}\PY{p}{:}
-                    \PY{n}{new\PYZus{}row} \PY{o}{=} \PY{p}{[}\PY{p}{]}
-                    \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{feature\PYZus{}extractor}\PY{p}{(}\PY{n}{sentiment}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)} \PY{c+c1}{\PYZsh{}get the dictionary of features for a word}
-                    \PY{k}{if} \PY{n+nb}{int}\PY{p}{(}\PY{n}{sentiment}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+m+mi}{0}\PY{p}{:} \PY{c+c1}{\PYZsh{} Club the sentiment values (\PYZhy{}5 to + 5) to just positive or negative}
-                        \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{positive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-                    \PY{k}{else}\PY{p}{:}
-                        \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{negative}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-                    \PY{n}{feature\PYZus{}set}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{new\PYZus{}row}\PY{p}{)}
-                
-                \PY{n}{random}\PY{o}{.}\PY{n}{shuffle}\PY{p}{(}\PY{n}{feature\PYZus{}set}\PY{p}{)}
-                \PY{c+c1}{\PYZsh{} We need to shuffle the features since the word\PYZus{}sentiment.csv had words arranged in alphabetical order}
-                \PY{n}{train\PYZus{}set} \PY{o}{=} \PY{n}{feature\PYZus{}set}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{1500}\PY{p}{]} \PY{c+c1}{\PYZsh{}the first 1500 words becomes our training set}
-                \PY{n}{test\PYZus{}set} \PY{o}{=} \PY{n}{feature\PYZus{}set}\PY{p}{[}\PY{l+m+mi}{1500}\PY{p}{:}\PY{p}{]}
-                \PY{n}{classifier} \PY{o}{=} \PY{n}{nltk}\PY{o}{.}\PY{n}{NaiveBayesClassifier}\PY{o}{.}\PY{n}{train}\PY{p}{(}\PY{n}{train\PYZus{}set}\PY{p}{)}
-                \PY{c+c1}{\PYZsh{} Note: to create the classifier we need to provide a dictonary of features and the label ONLY}
-                \PY{k}{return} \PY{n}{classifier}
+        \PY{k}{def} \PY{n+nf}{tfidf\PYZus{}vectorizer}\PY{p}{(}\PY{n}{corpus}\PY{p}{)}\PY{p}{:}
+          \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}This function converts the input sentence into a sparse matrix of tfidf vectors\PYZdq{}\PYZdq{}\PYZdq{}}
+          \PY{n}{tokenizer} \PY{o}{=} \PY{n}{TfidfVectorizer}\PY{p}{(} \PY{n}{strip\PYZus{}accents} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{unicode}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{analyzer}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{word}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{stop\PYZus{}words}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{english}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{ngram\PYZus{}range}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{,} \PY{n}{max\PYZus{}features}\PY{o}{=}\PY{l+m+mi}{20000}\PY{p}{)}
+          \PY{n}{tokenizer}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{corpus}\PY{p}{)}
+          \PY{k}{return} \PY{n}{tokenizer}
         
-        \PY{k}{def} \PY{n+nf}{main}\PY{p}{(}\PY{p}{)}\PY{p}{:}
-            \PY{n}{sentiment\PYZus{}csv} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C:/Users/kmpoo/Dropbox/HEC/Teaching/Python for PhD Mar 2018/python4phd/Session 3/Sent/word\PYZus{}sentiment.csv}\PY{l+s+s2}{\PYZdq{}}
-            \PY{n}{classifier} \PY{o}{=} \PY{n}{ML\PYZus{}train}\PY{p}{(}\PY{n}{sentiment\PYZus{}csv}\PY{p}{)}
-            \PY{n}{input\PYZus{}word} \PY{o}{=} \PY{n+nb}{input}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Enter a word }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)}
-            \PY{n}{sentiment} \PY{o}{=} \PY{n}{classifier}\PY{o}{.}\PY{n}{classify}\PY{p}{(}\PY{n}{feature\PYZus{}extractor}\PY{p}{(}\PY{n}{input\PYZus{}word}\PY{p}{)}\PY{p}{)}
-            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sentiment of word }\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{input\PYZus{}word}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{ is : }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{sentiment}\PY{p}{)}
-                  
-        \PY{n}{main}\PY{p}{(}\PY{p}{)}
+        
+        \PY{n}{vectorizer} \PY{o}{=} \PY{n}{tfidf\PYZus{}vectorizer}\PY{p}{(}\PY{n}{dataframe}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{review\PYZus{}text}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}  
+        \PY{n}{train\PYZus{}x} \PY{o}{=} \PY{n}{vectorizer}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{review\PYZus{}text}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+        \PY{n}{test\PYZus{}x} \PY{o}{=} \PY{n}{vectorizer}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{df\PYZus{}test}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{review\PYZus{}text}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+        
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{train\PYZus{}x}\PY{p}{)}
 \end{Verbatim}
 
 
-    \paragraph{Step 4: Testing the model}\label{step-4-testing-the-model}
-
-Find how good the model is in identifying the labels. Ensure that the
-test set is distinct from the training corpus. If we simply re-used the
-training set as the test set, then a model that simply memorized its
-input, without learning how to generalize to new examples, would receive
-misleadingly high scores. The function nltk.classify.accuracy() will
-calculate the accuracy of a classifier model on a given test set.
+    \paragraph{Step 5:Generate the
+classifier}\label{step-5generate-the-classifier}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{import} \PY{n+nn}{csv}
-        \PY{k+kn}{import} \PY{n+nn}{random}
-        \PY{k+kn}{import} \PY{n+nn}{nltk}
+{\color{incolor}In [{\color{incolor} }]:} \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{ensemble} \PY{k}{import} \PY{n}{RandomForestClassifier}
         
-        \PY{k}{def} \PY{n+nf}{feature\PYZus{}extractor}\PY{p}{(}\PY{n}{word}\PY{p}{)}\PY{p}{:}
-            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Extract the features for a given word and return a dictonary of the features\PYZdq{}\PYZdq{}\PYZdq{}}
-            \PY{n}{start\PYZus{}letter} \PY{o}{=} \PY{n}{word}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
-            \PY{n}{last\PYZus{}letter} \PY{o}{=} \PY{n}{word}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
-            \PY{k}{return} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{start\PYZus{}letter}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{start\PYZus{}letter}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{last\PYZus{}letter}\PY{l+s+s1}{\PYZsq{}} \PY{p}{:} \PY{n}{last\PYZus{}letter}\PY{p}{\PYZcb{}}
-        
-        \PY{k}{def} \PY{n+nf}{ML\PYZus{}train}\PY{p}{(}\PY{n}{sentiment\PYZus{}corpus}\PY{p}{)}\PY{p}{:}
-            \PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}Create feature set from the corpus given to to it. Split the  feature set into training and testing sets.}
-        \PY{l+s+sd}{    Train the classifier using the naive Bayes model and return the classifier. \PYZdq{}\PYZdq{}\PYZdq{}}
-            \PY{n}{feature\PYZus{}set} \PY{o}{=} \PY{p}{[}\PY{p}{]}
-            \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{sentiment\PYZus{}corpus}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{encoding} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{utf\PYZhy{}8}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{sentobj}\PY{p}{:}
-                \PY{n}{sentiment\PYZus{}handle} \PY{o}{=} \PY{n}{csv}\PY{o}{.}\PY{n}{reader}\PY{p}{(}\PY{n}{sentobj}\PY{p}{)}
-         
-                \PY{k}{for} \PY{n}{sentiment} \PY{o+ow}{in} \PY{n}{sentiment\PYZus{}handle}\PY{p}{:}
-                    \PY{n}{new\PYZus{}row} \PY{o}{=} \PY{p}{[}\PY{p}{]}
-                    \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{feature\PYZus{}extractor}\PY{p}{(}\PY{n}{sentiment}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)} \PY{c+c1}{\PYZsh{}get the dictionary of features for a word}
-                    \PY{k}{if} \PY{n+nb}{int}\PY{p}{(}\PY{n}{sentiment}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+m+mi}{0}\PY{p}{:} \PY{c+c1}{\PYZsh{} Club the sentiment values (\PYZhy{}5 to + 5) to just positive or negative}
-                        \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{positive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-                    \PY{k}{else}\PY{p}{:}
-                        \PY{n}{new\PYZus{}row}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{negative}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-                    \PY{n}{feature\PYZus{}set}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{new\PYZus{}row}\PY{p}{)}
-                
-                \PY{n}{random}\PY{o}{.}\PY{n}{shuffle}\PY{p}{(}\PY{n}{feature\PYZus{}set}\PY{p}{)}
-                \PY{c+c1}{\PYZsh{} We need to shuffle the features since the word\PYZus{}sentiment.csv had words arranged in alphabetical order}
-                \PY{n}{train\PYZus{}set} \PY{o}{=} \PY{n}{feature\PYZus{}set}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{1500}\PY{p}{]} \PY{c+c1}{\PYZsh{}the first 1500 words becomes our training set}
-                \PY{n}{test\PYZus{}set} \PY{o}{=} \PY{n}{feature\PYZus{}set}\PY{p}{[}\PY{l+m+mi}{1500}\PY{p}{:}\PY{p}{]}
-                \PY{n}{classifier} \PY{o}{=} \PY{n}{nltk}\PY{o}{.}\PY{n}{NaiveBayesClassifier}\PY{o}{.}\PY{n}{train}\PY{p}{(}\PY{n}{train\PYZus{}set}\PY{p}{)}
-                \PY{c+c1}{\PYZsh{} Note: to create the classifier we need to provide a dictonary of features and the label ONLY}
-                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Test accuracy of the classifier = }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{nltk}\PY{o}{.}\PY{n}{classify}\PY{o}{.}\PY{n}{accuracy}\PY{p}{(}\PY{n}{classifier}\PY{p}{,} \PY{n}{test\PYZus{}set}\PY{p}{)}\PY{p}{)}
-                \PY{n+nb}{print}\PY{p}{(}\PY{n}{classifier}\PY{o}{.}\PY{n}{show\PYZus{}most\PYZus{}informative\PYZus{}features}\PY{p}{(}\PY{p}{)}\PY{p}{)}
-                \PY{k}{return} \PY{n}{classifier}
-        
-        \PY{k}{def} \PY{n+nf}{main}\PY{p}{(}\PY{p}{)}\PY{p}{:}
-            \PY{n}{sentiment\PYZus{}csv} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C:/Users/kmpoo/Dropbox/HEC/Teaching/Python for PhD Mar 2018/python4phd/Session 3/Sent/word\PYZus{}sentiment.csv}\PY{l+s+s2}{\PYZdq{}}
-            \PY{n}{classifier} \PY{o}{=} \PY{n}{ML\PYZus{}train}\PY{p}{(}\PY{n}{sentiment\PYZus{}csv}\PY{p}{)}
-            \PY{n}{input\PYZus{}word} \PY{o}{=} \PY{n+nb}{input}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Enter a word }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)}
-            \PY{n}{sentiment} \PY{o}{=} \PY{n}{classifier}\PY{o}{.}\PY{n}{classify}\PY{p}{(}\PY{n}{feature\PYZus{}extractor}\PY{p}{(}\PY{n}{input\PYZus{}word}\PY{p}{)}\PY{p}{)}
-            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sentiment of word }\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{input\PYZus{}word}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{ is : }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{sentiment}\PY{p}{)}
-                  
-        \PY{n}{main}\PY{p}{(}\PY{p}{)}
+        \PY{n}{rfc} \PY{o}{=} \PY{n}{RandomForestClassifier}\PY{p}{(}\PY{n}{n\PYZus{}estimators}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+        \PY{n}{classifier} \PY{o}{=} \PY{n}{rfc}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{train\PYZus{}x}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bi\PYZus{}senti}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+        \PY{n}{acc} \PY{o}{=} \PY{n}{classifier}\PY{o}{.}\PY{n}{score}\PY{p}{(}\PY{n}{test\PYZus{}x}\PY{p}{,}\PY{n}{df\PYZus{}test}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bi\PYZus{}senti}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accuracy of rfc is = }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{acc}\PY{p}{)}
+        \PY{n}{rfc}\PY{o}{.}\PY{n}{predict\PYZus{}proba}\PY{p}{(}\PY{n}{test\PYZus{}x}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{:}\PY{l+m+mi}{10}\PY{p}{]}
 \end{Verbatim}
 
 
-    \paragraph{Excercise}\label{excercise}
-
-\emph{Improve the feature extractor (by adding new features) so that the
-test accuracy can go up to atleast 70\%.}
+    \paragraph{Step 6: Use the model to predict the sentiment of your
+sentence}\label{step-6-use-the-model-to-predict-the-sentiment-of-your-sentence}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{}Enter code here}
-        
-        
-        
-        
-        \PY{c+c1}{\PYZsh{}}
+{\color{incolor}In [{\color{incolor} }]:} \PY{n}{s} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{his movie was absolutely horrible. A boring, random, nonsensical mess from start to finish. The film is incompetently directed from a very poor script. It feels more like a superhero movie from the early 2000}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{s such as Catwoman or Daredevil. Watching it makes it clear that the people involved had no idea what they were doing, and should never have been put in charge of a project this size to begin with. The story makes no sense, and the whole reason Batman wants to kill Superman is contrived. Batman and Superman hate each other because they both cause collateral damage and human death, and neither one ever sees fit to point out their similarities, or try and talk to each other about their different perspectives. Apparently that would have been too interesting, so of course Snyder didn}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{t include it.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{x} \PY{o}{=} \PY{n}{vectorizer}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{s}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{rfc}\PY{o}{.}\PY{n}{predict\PYZus{}proba}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{)}
 \end{Verbatim}
 
-
-    \paragraph{Step 5: Development testing and error
-analysis}\label{step-5-development-testing-and-error-analysis}
-
-Using a seperate dev-test set, we can generate a list of the errors that
-the classifier makes when predicting the sentiment. We can then examine
-individual error cases where the model predicted the wrong label, and
-try to determine what additional pieces of information would allow it to
-make the right decision (or which existing pieces of information are
-tricking it into making the wrong decision). The feature set can then be
-adjusted accordingly.
 
 
     % Add a bibliography block to the postdoc
